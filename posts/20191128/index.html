@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.60.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>はてなブログからHugo&#43;CircleCI&#43;GitHub Pages&#43;独自ドメインになりました。 &middot; blog.sayakachan.net</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.sayakachan.net/images/icon_400x400.jpg"/>
+
+<meta name="twitter:title" content="はてなブログからHugo&#43;CircleCI&#43;GitHub Pages&#43;独自ドメインになりました。"/>
+<meta name="twitter:description" content="ブログをはてなからGitHub Pagesに移行しました。当サイトが移行先です。静的サイトジェネレータにはHugoを、CircleCIで自動ビルド・デプロイ、独自ドメインな環境になりました。"/>
+
+</head>
+
+  <body class="theme-base-0a ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
+      <p class="lead">
+       とある情報系学生のブログです。 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        
+        <li><a href="https://sayakachan.net/"> Portfolio </a></li>
+      </ul>
+    </nav>
+
+    
+    <p>&copy; 2019 sayakachan.net</p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>はてなブログからHugo&#43;CircleCI&#43;GitHub Pages&#43;独自ドメインになりました。</h1>
+  <time datetime=2019-11-28T18:08:31&#43;0900 class="post-date">Thu, Nov 28, 2019</time>
+  <p>ブログをはてなからGitHub Pagesに移行しました。当サイトが移行先です。静的サイトジェネレータにはHugoを、CircleCIで自動ビルド・デプロイ、独自ドメインな環境になりました。</p>
+<h1 id="heading">なぜ移行したか</h1>
+<p>理由は色々あるんですが、、、</p>
+<ul>
+<li>はてなの広告がうざい
+<ul>
+<li>Proになるほど熱い気持ちはない</li>
+</ul>
+</li>
+<li>はてなの使わなかったり使いこなせない機能がわちゃわちゃしている
+<ul>
+<li>邪魔</li>
+</ul>
+</li>
+<li>はてなのエディタがかっこわるい&amp;使いづらい
+<ul>
+<li>見た目のかっこよさは記事を書く際のモチベーションに大きく影響する
+<ul>
+<li>しらんけど</li>
+</ul>
+</li>
+<li>手元のvscodeとかで書きたい</li>
+</ul>
+</li>
+<li>独自ドメインを使いたい
+<ul>
+<li>せっかく持っているので</li>
+<li>Proでないと独自ドメインを設定できない</li>
+<li>Proになるほど熱い気持ちはない</li>
+</ul>
+</li>
+<li>記事をGitで管理したい</li>
+<li>CI/CDによる自動化に熱い気持ちがある</li>
+<li>色々カスタマイズしたい</li>
+</ul>
+<h1 id="heading1">どうなったか</h1>
+<ul>
+<li>手元のエディタで記事が書けるようになった</li>
+<li>gitで記事が管理できるようになった</li>
+<li>(引き続き)マークダウンで書ける</li>
+<li>リモートにプッシュするとCircleCIが走って自動でデプロイしてくれる</li>
+<li>広告が出なくなった</li>
+</ul>
+<h1 id="heading2">使用したもの</h1>
+<h2 id="hugo">Hugo</h2>
+<ul>
+<li>Go製の静的サイトジェネレータ</li>
+<li>マークダウンで書ける</li>
+<li>とても速い（らしい）</li>
+<li>多彩なテーマ
+<ul>
+<li>このブログでは<a href="https://github.com/spf13/hyde">Hyde</a>というテーマを自分用に少しカスタマイズして使っている</li>
+</ul>
+</li>
+</ul>
+<h2 id="github-pages">GitHub Pages</h2>
+<ul>
+<li>静的ファイルのホスティング</li>
+</ul>
+<h2 id="circleci">CircleCI</h2>
+<ul>
+<li>Hugoのビルド環境</li>
+</ul>
+<h2 id="heading3">お名前ドットコム</h2>
+<ul>
+<li>ドメインを既にとっている</li>
+</ul>
+<h2 id="cloudflare">Cloudflare</h2>
+<ul>
+<li>DNSとして使っている</li>
+<li>CNAMEレコードでgithub.ioに向ける</li>
+</ul>
+<h1 id="heading4">参考にさせていただいたサイト</h1>
+<p>ほぼこれらのサイトで紹介されているとおりなので特筆することはありません。先駆者のみなさまのおかげで特にひっかかることなくすすめることができました。</p>
+<ul>
+<li><a href="https://t32k.me/mol/log/hugo-circleci-ghpages-2018/">CircleCIでHugoを実行してGitHub Pagesにデプロイ</a></li>
+<li><a href="https://hidollara.github.io/blog/2019/09/hugo-github-pages-circle-ci/">Hugo (tranquilpeak) + Github Pages + CircleCIで構築する静的ホームページ環境</a></li>
+<li><a href="https://qiita.com/noraworld/items/89dd85a434a7b759e00c">GitHub Pages + CloudFlare で独自ドメインをSSL化する</a></li>
+</ul>
+<h1 id="heading5">余談</h1>
+<h2 id="circleci1">おっかなびっくりCircleCIを使って見事にビルドがコケている様子</h2>
+<p>初心者丸出し
+<img src="/images/20191128/pic1.png" alt=""></p>
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>

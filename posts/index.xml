@@ -6,10 +6,19 @@
     <description>Recent content in Posts on blog.sayakachan.net</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 13 Nov 2019 22:43:13 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Nov 2019 18:08:31 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.sayakachan.net/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>はてなブログからHugo&#43;CircleCI&#43;GitHub Pages&#43;独自ドメインになりました。</title>
+      <link>https://blog.sayakachan.net/posts/20191128/</link>
+      <pubDate>Thu, 28 Nov 2019 18:08:31 +0900</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20191128/</guid>
+      <description>&lt;p&gt;ブログをはてなからGitHub Pagesに移行しました。当サイトが移行先です。静的サイトジェネレータにはHugoを、CircleCIで自動ビルド・デプロイ、独自ドメインな環境になりました。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>グラボとオンボードを併用してトリプルディスプレイ</title>
