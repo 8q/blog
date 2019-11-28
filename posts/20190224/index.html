@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.60.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Google HomeとChinachuで「今日のアニメ」アシスタントを作った &middot; blog.sayakachan.net</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class="theme-base-0a ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
+      <p class="lead">
+       とある情報系学生のブログです。 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        
+        <li><a href="https://sayakachan.net/"> Portfolio </a></li>
+      </ul>
+    </nav>
+
+    
+    <p>&copy; 2019 sayakachan.net</p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Google HomeとChinachuで「今日のアニメ」アシスタントを作った</h1>
+  <time datetime=2019-02-24T19:42:39Z class="post-date">Sun, Feb 24, 2019</time>
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/kbUrp8LrryI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>自分が追っているアニメの放送時間がパッと分かるような仕組みがあったらいいな～と思ったのでGoogle Homeのアシスタントを作りました。</p>
+<h1 id="heading">できること</h1>
+<p>番組情報はChinachuの予約済み/録画中/録画済みから抽出しています。</p>
+<pre><code>「OK Google, (一昨|昨|今|明|明後)日のアニメ」
+あるとき
+-&gt;「 (一昨|昨|今|明|明後)日は${番組情報リスト.map(e =&gt; `${e.時刻}から${e.チャンネル名}で${e.番組名}`).join('、')}です。」
+ないとき
+-&gt;「(一昨|昨|今|明|明後)日の番組が見つかりませんでした。」
+</code></pre><h1 id="heading1">構成</h1>
+<figure>
+    <img src="/images/20190224/20190224194612.png"/> 
+</figure>
+
+<h1 id="chinachu-">①Chinachu γ</h1>
+<p>ありがたいことにREST APIが用意されています。予約済み/録画中/録画済みリストを取得するには<code>/reserves</code>と<code>/recording</code>と<code>/recorded</code>が使えます。</p>
+<p><a href="%22https://github.com/Chinachu/Chinachu/wiki/REST-API%22">REST API · Chinachu/Chinachu Wiki · GitHub</a></p>
+<h1 id="nginx">②Nginx</h1>
+<p>ローカルのChinachuをリバースプロキシで外に出しています。Basic認証を設定しています。</p>
+<h1 id="aws-lambda">③AWS Lambda</h1>
+<p>Dialogflowから飛んできたリクエストを捌いて、Google Homeに喋らせるメッセージを作ります。Dialogflowから飛んでくるリクエストと返すべきレスポンスは以下のドキュメントページを参照しました。<code>expectUserResponse: false</code>にすることでGoogle Homeに喋らせたらそのままアプリを終了させることが出来ます。(そうしないと「キャンセル」とか言わないと自作アプリから抜けられない）</p>
+<p><a href="https://developers.google.com/actions/build/json/dialogflow-webhook-json">Dialogflow Webhook Format  |  Actions on Google
+ |  Google Developers</a></p>
+<p>メッセージを作る際にはLambdaからChinachuに先のREST APIを用いて問い合わせて得られた番組情報リストをDialogflowで飛んできた日付でフィルタリングして残った番組情報を使っています。深夜番組特有の25時があるので朝の5時を日付の変更線にしています。ソースコードはGitHubに上げています。</p>
+<p><a href="https://github.com/8q/chinachu-googlehome-linkage">8q/chinachu-googlehome-linkage</a></p>
+<p>Lambdaの環境変数タブに認証等に必要な情報を入れています。(パスワードを平文で入れて大丈夫なんだろうか&hellip;)</p>
+<figure>
+    <img src="/images/20190224/20190224181826.png"/> 
+</figure>
+
+<h1 id="amazon-api-gateway">④Amazon API Gateway</h1>
+<h3 id="heading2">リソース</h3>
+<ul>
+<li>POST<code>/chinachu-linkage</code></li>
+<li>認証<code>なし</code></li>
+<li>APIキー<code>必須</code></li>
+<li>統合タイプ<code>Lambdaファンクション</code></li>
+</ul>
+<p><a href="https://dev.classmethod.jp/voice-assistant/actions-on-google/using_aws_lambda_for_fullfilment_of_dialogflow/">こちらの記事</a>でも言及されているようにメソッドレスポンスのコンテンツタイプを<code>application/json; charset=UTF-8</code>にしないとGoogle Assistantで日本語が文字化けしてしまいました。</p>
+<h3 id="heading3">ステージ</h3>
+<p><code>dev</code>を作成しました。</p>
+<h3 id="api">APIキー</h3>
+<p><code>my_api</code>を作成しました。</p>
+<h3 id="heading4">使用量プラン</h3>
+<p>スロットリングとクォータを無効にして<code>basic</code>を作成し、関連付けられた API ステージに<code>chinachu-linkage</code>と<code>dev</code>を追加し、<code>my_api</code>を使用量プランに追加しました。</p>
+<h1 id="dialogflow">⑤Dialogflow</h1>
+<h3 id="1-entities">1. Entities</h3>
+<p>daywordというエンティティを作りました。
+<figure>
+    <img src="/images/20190224/20190224190832.png"/> 
+</figure>
+</p>
+<h3 id="2-fulfillment">2. Fulfillment</h3>
+<p>Webhookを有効にしてRLを<code>dev</code>ステージのものにし、Headerに<code>x-api-key: my_apiのキー</code>を追加しました。</p>
+<h3 id="3-intents">3. Intents</h3>
+<p>「今日のアニメ」というIntentsを作成し、Training phrasesタブに「今日のアニメ」と入力しました。するとGoogleは賢くて「@daywordのアニメ」という文章に反応してくれるようになります。</p>
+<figure>
+    <img src="/images/20190224/20190224192926.png"/> 
+</figure>
+
+<p>またFulfillmentタブでこのインテントに対するWebhookを有効にしました。</p>
+<figure>
+    <img src="/images/20190224/20190224193034.png"/> 
+</figure>
+
+<h3 id="4-integrations">4. Integrations</h3>
+<p>Google Assistantを選択します。</p>
+<h1 id="google-assistant">⑥Google Assistant</h1>
+<p>DialogflowとGoogle Assistantを連携した時点で自動的に実機でも作ったアプリが起動できるようになりました。またInvocationでDisplay Nameを「今日のアニメ」にしました。</p>
+<h3 id="heading5">ルーティン（ショートカット）の作成</h3>
+<p>現状までで「OK Google, 今日のアニメにつないで(一昨|昨|今|明|明後)日のアニメを聞いて」が可能になりましたが、かなりまどろっこしいのでルーティンという機能を使って簡単にしました。モバイルのGoogle Assistantアプリから設定できました。</p>
+<figure>
+    <img src="/images/20190224/20190224193632.jpg"/> 
+</figure>
+
+<p>画像は「今日」のものですが同様に他の日も設定しました。（これもエンティティみたいにひとまとめにできたらいいのに）</p>
+<h1 id="heading6">完成</h1>
+<p>やったぜ。</p>
+<h1 id="heading7">気になること</h1>
+<p><a href="https://developers.google.com/actions/tools/simulator">Actions simulator  |  Actions on Google
+ |  Google Developers</a></p>
+<p>これを見る限りPublishしてないテストアプリは30日立ったら失効してしまうらしい。30日立ったらもっかいシミュレータにアクセスすればいいのだろうけど、それは面倒。どうしよう。</p>
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>
