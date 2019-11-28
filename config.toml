@@ -6,7 +6,6 @@ theme = "hyde"
 [params]
   description = "とある情報系学生のブログです。"
   themeColor = "theme-base-0a"
-  images = ["/images/icon_400x400.jpg"]
 
 [Menus]
   main = [
