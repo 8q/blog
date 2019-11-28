@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.60.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>chinachuのffmpegがraspberry piで動かない問題 &middot; blog.sayakachan.net</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class="theme-base-0a ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
+      <p class="lead">
+       とある情報系学生のブログです。 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        
+        <li><a href="https://sayakachan.net/"> Portfolio </a></li>
+      </ul>
+    </nav>
+
+    
+    <p>&copy; 2019 sayakachan.net</p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>chinachuのffmpegがraspberry piで動かない問題</h1>
+  <time datetime=2018-10-12T13:39:44Z class="post-date">Fri, Oct 12, 2018</time>
+  <p>最近録画サーバーを再構築しました。chinachuのインストールは<a href="https://github.com/Chinachu/Chinachu/wiki/Gamma-Installation-V2">公式のwiki</a>に従って行けばそれで良いのですが、このままだとffmpegが上手く動かず録画したデータの再生ができません。raspi上でchinachuを動かす記事は世の中にごまんとある割には、その問題に触れてる記事には出会わなかったので、僕が解決した方法をまとめておきます。</p>
+<h1 id="heading">起きた問題</h1>
+<p>chinachuで録画したデータが再生できない。500 Internal server errorになる。ライブ再生はできる。</p>
+<h1 id="heading1">ログを確認</h1>
+<pre><code>cat /usr/local/var/log/chinachu-wui.stdout.log
+</code></pre><pre><code>12 Oct 08:47:34 - { Error: Command failed: ffmpeg -f mpegts -ss 1.5 -r 10 -i &quot;./recorded/[181012-0000][GR20][ＴＯＫＹＯ　ＭＸ１]ゾンビランドサガ.m2ts&quot; -ss 1.5 -r 10 -frames:v 1 -c:v mjpeg -an -f image2 -s 480x270 -map 0:0 -y pipe:1
+/bin/sh: 1: ffmpeg: Exec format error
+</code></pre><pre><code>12 Oct 08:47:39 - error { Error: Command failed: ffprobe -v 0 -show_format -of json &quot;./recorded/[181011-2330][GR20][ＴＯＫＹＯ　ＭＸ１]メルクストーリア　－無気力少年と瓶の中の少女－.m2ts&quot;
+/bin/sh: 1: ffprobe: Exec format error
+</code></pre><h1 id="heading2">原因</h1>
+<p>chinachuはインストール時に自前でffmpegをビルドしているが、実行ファイルがarm用でないため。</p>
+<h1 id="heading3">対処</h1>
+<p>chinachuのffmpegは削除して、グローバルに改めてffmpegをインストールする。</p>
+<pre><code>cd chinachu
+rm ./usr/bin/ffmpeg
+rm ./usr/bin/ffprobe
+sudo apt-get install ffmpeg
+</code></pre><p>前はapt-getでffmpegが入らなかった気がするんですが&hellip;自分でビルドせずに済むので嬉しい限りです。</p>
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>

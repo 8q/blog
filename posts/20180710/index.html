@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.60.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Google Home＋サーボモータで照明のスイッチを操作できるようにした話 &middot; blog.sayakachan.net</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.sayakachan.net/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class="theme-base-0a ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
+      <p class="lead">
+       とある情報系学生のブログです。 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        
+        <li><a href="https://sayakachan.net/"> Portfolio </a></li>
+      </ul>
+    </nav>
+
+    
+    <p>&copy; 2019 sayakachan.net</p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Google Home＋サーボモータで照明のスイッチを操作できるようにした話</h1>
+  <time datetime=2018-07-10T03:57:23Z class="post-date">Tue, Jul 10, 2018</time>
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/TyQA1z5Kwa4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>自室の照明のスイッチなんですが、ベットが置いてあるところに対して部屋の対角線上のちょうど反対側にあるんですよね。ベットでゴロゴロしながらあ～眠くなってきたなってときに照明を消すために立ち上がらないとイケないわけで不便でした。せっかくGoogle Homeが部屋にあるのだからベットでゴロゴロしながら「OK Google, 電気を消して」「パチッ（電気が切れる音）」とかやりたいですよね。仮にも情報系学生を名乗るからにはこれくらい自作してナンボですね。ということで作ってみたという話です。</p>
+<h2 id="heading">機材</h2>
+<ul>
+<li>Google Home Mini</li>
+<li>Raspberry Pi 3(raspbian、4.14.52-v7+)</li>
+<li>Arduino nano互換ボード(CH340+ATmega328P、中華製の偽物です)</li>
+<li>USBケーブル(miniB)</li>
+<li>サーボモータ(SG90)</li>
+<li>ジャンプワイヤ3本(オスメス)</li>
+<li>ガムテープ</li>
+</ul>
+<h2 id="heading1">構成</h2>
+<p>Google Homeに話しかけてからサーボモータが動作するまでの流れは以下のような構成です。</p>
+<ol>
+<li>Google Homeがフレーズを拾う</li>
+<li>iftttがGoogle Homeからwebhookに転送</li>
+<li>webhookがraspiで動いているnodeサーバーにhttpリクエスト送信</li>
+<li>raspi上のnodeはhttpリクエストを受け取ってArduinoにシリアル通信でコマンド送信</li>
+<li>Arduinoはraspiからのシリアル通信を受信したらサーボモータを動かす。</li>
+</ol>
+<h2 id="google-home">Google Home</h2>
+<p>何もしていません。初期設定のままです。</p>
+<h2 id="arduino-nano">Arduino nanoとサーボモータ</h2>
+<p>サーボモータ(SG90)とArduino nano(の偽物)をジャンプワイヤで結びました。赤をVcc(5V)、黄をDigital Outの3ピン、茶をGNDに繋げます。以下のようなプログラムを書いて書き込みました。</p>
+<script type="application/javascript" src="https://gist.github.com/8q/253fdd04378b5a96ceaf43eba347866c.js?file=light_servo.ino"></script>
+
+<p>元々は電気を消すだけじゃなくて電気をつけることもしたかったのですが、どうしてもスイッチのところにうまく設置できなくて断念しました。その名残で若干実装が気持ち悪いですが、許してください。あとはサーボモータとArduinoを動画のようにスイッチのところにガムテで固定しました。</p>
+<h2 id="raspberry-pi">Raspberry Pi</h2>
+<p>まずArduino(偽物)とRaspiを繋げます。他の方の記事を見ているとドライバを入れないと動かないというのを多く見たのですが、新しいカーネルだからでしょうか、普通にUSBケーブルで繋げるだけで認識しました。</p>
+<pre><code>ll /dev
+</code></pre><p>僕の場合は<code>/dev/ttyUSB0</code>という名前で認識されていました（更新日時で確認）。sudoなしで操作できるようにdialoutグループにぶち込みました。</p>
+<pre><code>sudo gpasswd -a pi dialout
+</code></pre><p>次にnodeでサーバーを立ち上げます。chiachu gammaを入れていた関係でnode v8.xとpm2が既に入っていました。</p>
+<pre><code>mkdir roomapp
+echo {} &gt;&gt; package.json
+npm install express --save
+npm install serialport --save
+npm install body-parser --save
+vim main.js
+</code></pre><p>main.js</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;express&#34;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">morgan</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;morgan&#39;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">SerialPort</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;serialport&#39;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Readline</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;@serialport/parser-readline&#39;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">bodyParser</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;body-parser&#39;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>()
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">morgan</span>(<span style="color:#e6db74">&#39;combined&#39;</span>))
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">bodyParser</span>.<span style="color:#a6e22e">urlencoded</span>({ <span style="color:#a6e22e">extended</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span> }))
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">port</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SerialPort</span>(<span style="color:#e6db74">&#39;/dev/ttyUSB0&#39;</span>, { <span style="color:#a6e22e">baudRate</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">9600</span> })
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">parser</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">port</span>.<span style="color:#a6e22e">pipe</span>(<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Readline</span>({ <span style="color:#a6e22e">delimiter</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;\r\n&#39;</span> }))
+<span style="color:#a6e22e">parser</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;data&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>) {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Data recieved: %s&#39;</span>, <span style="color:#a6e22e">data</span>)
+});
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/light&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) {
+    <span style="color:#66d9ef">switch</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#66d9ef">switch</span>) {
+        <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;on&#39;</span><span style="color:#f92672">:</span>
+            <span style="color:#a6e22e">port</span>.<span style="color:#a6e22e">write</span>(<span style="color:#e6db74">&#39;o&#39;</span>)
+            <span style="color:#66d9ef">break</span>;
+        <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;off&#39;</span><span style="color:#f92672">:</span>
+            <span style="color:#a6e22e">port</span>.<span style="color:#a6e22e">write</span>(<span style="color:#e6db74">&#39;x&#39;</span>)
+            <span style="color:#66d9ef">break</span>;
+        <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+            <span style="color:#66d9ef">break</span>;
+    }
+    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>({})
+});
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#ae81ff">3002</span>, <span style="color:#66d9ef">function</span>(){
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Server starting.&#39;</span>);
+});
+
+</code></pre></div><p>最初GETメソッドで立ち上げたのですが、Line等にリンクを貼り付けただけでhttpリクエストが発生してモータが動いてしまうという悲しい事態が発生したのでPOSTに変えました。あとは電気を消すだけじゃなくて点けることも実現しようとした名残が残っています。以下コマンドでサーバーを立ち上げます。</p>
+<pre><code>node main.js
+</code></pre><p>常駐させるなら</p>
+<pre><code>pm2 start main.js
+</code></pre><p>nginxでリバプロを設定して外から見られるようにします。ワイルドカード証明書を既に取得してあります。</p>
+<pre><code>cd /etc/nginx/sites-available
+vim hoge.example.com.conf
+</code></pre><p>hoge.example.com.conf(ここのサーバー名は適宜)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
+        <span style="color:#f92672">listen</span>  <span style="color:#ae81ff">443</span>;
+        <span style="color:#f92672">server_name</span> <span style="color:#e6db74">hoge.example.com</span>;
+
+        <span style="color:#f92672">proxy_set_header</span>    <span style="color:#e6db74">Host</span>    $host;
+        <span style="color:#f92672">proxy_set_header</span>    <span style="color:#e6db74">X-Real-IP</span>    $remote_addr;
+        <span style="color:#f92672">proxy_set_header</span>    <span style="color:#e6db74">X-Forwarded-Host</span>       $host;
+        <span style="color:#f92672">proxy_set_header</span>    <span style="color:#e6db74">X-Forwarded-Server</span>    $host;
+        <span style="color:#f92672">proxy_set_header</span>    <span style="color:#e6db74">X-Forwarded-For</span>    $remote_addr;
+
+        <span style="color:#f92672">ssl</span> <span style="color:#66d9ef">on</span>;
+        <span style="color:#f92672">ssl_certificate</span> <span style="color:#e6db74">/etc/letsencrypt/live/example.com/fullchain.pem</span>;
+        <span style="color:#f92672">ssl_certificate_key</span> <span style="color:#e6db74">/etc/letsencrypt/live/example.com/privkey.pem</span>;
+
+        <span style="color:#f92672">location</span> <span style="color:#e6db74">/</span> {
+                <span style="color:#f92672">proxy_pass</span> <span style="color:#e6db74">http://192.168.0.100:3002/</span>;
+        }
+}
+
+</code></pre></div><p>nginxでconfを有効にします。</p>
+<pre><code>cd /etc/nginx/sites-enabled
+sudo ln -s /etc/nginx/sites-available/hoge.example.com.conf hoge.example.com.conf
+sudo nginx -s reload
+</code></pre><h2 id="ifttt">ifttt</h2>
+<p>New Appletから新しいアプレットを作ります。<code>this</code>にはGoogle Assistantを選択し、<code>Say a simple phrase</code>を選択しました。以下のように設定しました。</p>
+<figure>
+    <img src="/images/20180710/035039.png"/> 
+</figure>
+
+<p>レスポンスには何も入力しませんでしたが、実際に使ったときにはGoogle Homeは「OK!アクションを実行します。」と軽快な返事をくれました。<code>that</code>にはwebhookを選択します。以下のように設定しました。</p>
+<figure>
+    <img src="/images/20180710/035029.png"/> 
+</figure>
+
+<p>URLはリバプロで設定したサーバー名を入れます。<code>switch=off</code>のボディをnodeに渡します。iftttを設定すると、一連のプログラムが動くようになります。</p>
+<h2 id="heading2">終わりに</h2>
+<p>ガムテでのサーボモータの設置はお世辞にもスマートとは言えないものになってしまいましたが、まあ、こういうことも出来るよって知見は溜まったのかなとは思います。あとはこういうのはピタゴラスイッチみたいで楽しいです。</p>
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>

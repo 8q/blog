@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on blog.sayakachan.net</title>
+    <link>https://blog.sayakachan.net/posts/</link>
+    <description>Recent content in Posts on blog.sayakachan.net</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 13 Nov 2019 22:43:13 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.sayakachan.net/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>グラボとオンボードを併用してトリプルディスプレイ</title>
+      <link>https://blog.sayakachan.net/posts/20191113/</link>
+      <pubDate>Wed, 13 Nov 2019 22:43:13 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20191113/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.sayakachan.net/images/20191113/20191113220923.jpg&#34;/&gt; 
+&lt;/figure&gt;
+
+&lt;p&gt;トリプルにしちゃいました。グラボから生えてる出力端子の余りがなかったので、オンボードグラフィックを併用できないかなーと思って調べたら併用できるらしいことが分かったのでやってみました。その際の作業録です。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Google HomeとChinachuで「今日のアニメ」アシスタントを作った</title>
+      <link>https://blog.sayakachan.net/posts/20190224/</link>
+      <pubDate>Sun, 24 Feb 2019 19:42:39 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20190224/</guid>
+      <description>&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/kbUrp8LrryI&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;自分が追っているアニメの放送時間がパッと分かるような仕組みがあったらいいな～と思ったのでGoogle Homeのアシスタントを作りました。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>chinachuのffmpegがraspberry piで動かない問題</title>
+      <link>https://blog.sayakachan.net/posts/20181012/</link>
+      <pubDate>Fri, 12 Oct 2018 13:39:44 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20181012/</guid>
+      <description>&lt;p&gt;最近録画サーバーを再構築しました。chinachuのインストールは&lt;a href=&#34;https://github.com/Chinachu/Chinachu/wiki/Gamma-Installation-V2&#34;&gt;公式のwiki&lt;/a&gt;に従って行けばそれで良いのですが、このままだとffmpegが上手く動かず録画したデータの再生ができません。raspi上でchinachuを動かす記事は世の中にごまんとある割には、その問題に触れてる記事には出会わなかったので、僕が解決した方法をまとめておきます。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GASによるサーバー死活監視Slackボットを書いた</title>
+      <link>https://blog.sayakachan.net/posts/20181007/</link>
+      <pubDate>Sun, 07 Oct 2018 21:47:36 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20181007/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.sayakachan.net/images/20181007/214612.png&#34;/&gt; 
+&lt;/figure&gt;
+
+&lt;p&gt;タイトルのとおりです。ネタとしてはよくあるものです。自宅サーバーを家族に蹴っ飛ばされて落とされました。アニメの録画デーモンを動かしていたのですがサーバーが落ちていることに気が付かず、土曜日の深夜枠の録画に失敗しました。第1話だったのに&amp;hellip;。腹が立ったので書きました。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Unity(UniRx)で蚊を倒すゲームを作った話</title>
+      <link>https://blog.sayakachan.net/posts/20181002/</link>
+      <pubDate>Tue, 02 Oct 2018 20:03:46 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20181002/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.sayakachan.net/images/20181002/180131.png&#34;/&gt; 
+&lt;/figure&gt;
+
+&lt;p&gt;遊びでUnityで蚊を倒すゲームを作ってみました。大学の学祭のときにでもみんなに遊んでもらおうと画策してます。ゲームの紹介と技術的なことを書きます。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Unityでスコアサーバーとの送受信をやってみた話</title>
+      <link>https://blog.sayakachan.net/posts/20180824/</link>
+      <pubDate>Fri, 24 Aug 2018 22:29:38 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20180824/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.sayakachan.net/images/20180824/213623.png&#34;/&gt; 
+&lt;/figure&gt;
+
+&lt;p&gt;Unityの画面でスコアを入力してサーバーへ登録、サーバーからスコアの一覧を取得してUnityの画面へ出力するということをやってみました。スコアサーバーはRuby on Railsで立てて、UnityではJson.NETとUniRxを用いました。特にやりたいことがあったわけではないのですが、知見のためにやりました。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>DockerベースのRuby on Railsのテンプレートを作った話</title>
+      <link>https://blog.sayakachan.net/posts/20180718/</link>
+      <pubDate>Wed, 18 Jul 2018 05:14:48 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20180718/</guid>
+      <description>&lt;p&gt;Ruby on RailsでサクッとAPIを作ってサクッとHeroku等にデプロイできるように、テンプレートとなるDockerベースのプロジェクトが欲しかったので作ったという話です。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Google Home＋サーボモータで照明のスイッチを操作できるようにした話</title>
+      <link>https://blog.sayakachan.net/posts/20180710/</link>
+      <pubDate>Tue, 10 Jul 2018 03:57:23 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20180710/</guid>
+      <description>&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/TyQA1z5Kwa4&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;自室の照明のスイッチなんですが、ベットが置いてあるところに対して部屋の対角線上のちょうど反対側にあるんですよね。ベットでゴロゴロしながらあ～眠くなってきたなってときに照明を消すために立ち上がらないとイケないわけで不便でした。せっかくGoogle Homeが部屋にあるのだからベットでゴロゴロしながら「OK Google, 電気を消して」「パチッ（電気が切れる音）」とかやりたいですよね。仮にも情報系学生を名乗るからにはこれくらい自作してナンボですね。ということで作ってみたという話です。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>放射ぼかしをPython&#43;OpenCVで実現する</title>
+      <link>https://blog.sayakachan.net/posts/20180630/</link>
+      <pubDate>Sat, 30 Jun 2018 02:23:57 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20180630/</guid>
+      <description>&lt;p&gt;大岡山の某サークルと高田馬場の某サークルだけかもしれませんが、yakudo写真が流行っていますね。&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;ja&#34; dir=&#34;ltr&#34;&gt;王のラーメン、渡なべ&lt;a href=&#34;https://twitter.com/hashtag/%E3%81%82%E3%81%9F%E3%81%B5%E3%81%9F%E3%82%A2%E3%83%95%E3%82%BF%E3%83%BC?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#あたふたアフター&lt;/a&gt;&lt;a href=&#34;https://twitter.com/hashtag/mis1yakudo?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#mis1yakudo&lt;/a&gt; &lt;a href=&#34;https://t.co/kuqzdGSmHl&#34;&gt;pic.twitter.com/kuqzdGSmHl&lt;/a&gt;&lt;/p&gt;&amp;mdash; あたふた (@at0x0ft) &lt;a href=&#34;https://twitter.com/at0x0ft/status/1012664522291605504?ref_src=twsrc%5Etfw&#34;&gt;June 29, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;こういった写真をyakudo写真と呼んでいます。スマートフォンを前後に大きく揺らしつつシャッターを切るというなんとも原始的なやり方で撮ります(笑)&lt;!-- raw HTML omitted --&gt;
+さて、こういった写真の効果のことを世間一般では「放射ぼかし」(radial blur)と呼ぶそうです。せっかくなのでPython+OpenCVで実装してみました。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>SECCON Beginners CTF 2018参加録</title>
+      <link>https://blog.sayakachan.net/posts/20180529/</link>
+      <pubDate>Tue, 29 May 2018 15:30:47 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20180529/</guid>
+      <description>&lt;p&gt;サークルでCTFの大会に参加しました。1119点で844チーム中56位。そのときの備忘録を兼ねた自分の解いた問題のWrite-Upです。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://blog.misw.jp/entry/2018/05/30/100000&#34;&gt;SECCON Beginners CTF 2018に参加しました - MIS.W 公式ブログ&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Raspberry PiにDocker ComposeでownCloudを導入する</title>
+      <link>https://blog.sayakachan.net/posts/20180514/</link>
+      <pubDate>Mon, 14 May 2018 14:52:28 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20180514/</guid>
+      <description>&lt;p&gt;raspbian+nginxで動かしているサーバーにownCloudを導入したのでその備忘録です。nginxは仮想環境ではなくraspbian上で直接動いている前提です。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Let&#39;s EncryptでSSL対応した話(raspbian&#43;nginx)</title>
+      <link>https://blog.sayakachan.net/posts/20180424/</link>
+      <pubDate>Tue, 24 Apr 2018 03:59:23 +0000</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20180424/</guid>
+      <description>&lt;p&gt;Let&#39;s EncriptでSSL対応したときの話です。嬉しいことについ最近(2018年3月)にワイルドカード証明書が発行できるようになったようです。これでバーチャルホスト増やす度に証明書発行しなおすなんてことをしなくて済むぞヤッタネ。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
