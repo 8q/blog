@@ -12,6 +12,7 @@ git clone -q --branch=gh-pages $CIRCLE_REPOSITORY_URL $DEPLOY_DIR
 rm -rf $DEPLOY_DIR/*
 cd $DEPLOY_DIR
 mv ../public/* .
+echo "blog.sayakachan.net" >> CNAME
 
 git add -fA
 git commit -m "Deploy #$CIRCLE_BUILD_NUM from CircleCI [ci skip]"
