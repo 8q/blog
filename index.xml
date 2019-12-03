@@ -126,7 +126,7 @@
 &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;ja&#34; dir=&#34;ltr&#34;&gt;王のラーメン、渡なべ&lt;a href=&#34;https://twitter.com/hashtag/%E3%81%82%E3%81%9F%E3%81%B5%E3%81%9F%E3%82%A2%E3%83%95%E3%82%BF%E3%83%BC?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#あたふたアフター&lt;/a&gt;&lt;a href=&#34;https://twitter.com/hashtag/mis1yakudo?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#mis1yakudo&lt;/a&gt; &lt;a href=&#34;https://t.co/kuqzdGSmHl&#34;&gt;pic.twitter.com/kuqzdGSmHl&lt;/a&gt;&lt;/p&gt;&amp;mdash; あたふた (@at0x0ft) &lt;a href=&#34;https://twitter.com/at0x0ft/status/1012664522291605504?ref_src=twsrc%5Etfw&#34;&gt;June 29, 2018&lt;/a&gt;&lt;/blockquote&gt;
 &lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
-&lt;p&gt;こういった写真をyakudo写真と呼んでいます。スマートフォンを前後に大きく揺らしつつシャッターを切るというなんとも原始的なやり方で撮ります(笑)&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;こういった写真をyakudo写真と呼んでいます。スマートフォンを前後に大きく揺らしつつシャッターを切るというなんとも原始的なやり方で撮ります(笑)&lt;br/&gt;
 さて、こういった写真の効果のことを世間一般では「放射ぼかし」(radial blur)と呼ぶそうです。せっかくなのでPython+OpenCVで実装してみました。&lt;/p&gt;</description>
     </item>
     

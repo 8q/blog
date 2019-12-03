@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.0" />
+  <meta name="generator" content="Hugo 0.60.1" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -179,7 +179,7 @@
     }
 }
 
-</code></pre></div><p>と、このようにEventManagerでイベントを管理して、EventManager経由でイベントを発行・通知するようにしました。するとカーソルがカーソルに関係のない処理を呼び出していたものが、役割に応じた各ビヘイビアに処理ごと切り出すことができました。例では「パン」を生成するコードのみを切り出しましたが、その他処理も同様に切り出せます。クラス間の関係の見通しがよくなったと思いませんか？<!-- raw HTML omitted -->最高。<!-- raw HTML omitted --></p>
+</code></pre></div><p>と、このようにEventManagerでイベントを管理して、EventManager経由でイベントを発行・通知するようにしました。するとカーソルがカーソルに関係のない処理を呼び出していたものが、役割に応じた各ビヘイビアに処理ごと切り出すことができました。例では「パン」を生成するコードのみを切り出しましたが、その他処理も同様に切り出せます。クラス間の関係の見通しがよくなったと思いませんか？<strong>最高。</strong></p>
 <h1 id="heading4">名前空間の切り分け</h1>
 <p>Unityで自動生成されるコードには名前空間が振られない（グローバルな名前空間）ですね。最初は気にせず開発していたのですがこんなことがありました。ゲームシーンでの蚊のビヘイビアとして「MosquitoBehaviour」クラスを作っていました。タイトルシーンでも蚊を動かす必要があったのですが、ゲームシーンでのそれとは動作が違うので新たにビヘイビアを作る必要がありました。クラス名として「MosquitoBehaviour」は既に使われているので「TitleMosquitoBehaviour」か？長くない？そもそもタイトルシーンの方をそういう風に命名するならゲームシーンの方も「GameMosquitoBehaviour」に直す？じゃあカーソルとかのビヘイビアも今後別のシーンで使われることを見越して「GameCursorBehavior」にするのか？とキリがなくなってしまいます。そういうときはシーンごとに名前空間を切り分けてやるとうまくいくんじゃないかと思いました。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">namespace</span> MosquitoGame.GameScene

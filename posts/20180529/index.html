@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.0" />
+  <meta name="generator" content="Hugo 0.60.1" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -166,7 +166,7 @@ encrypted <span style="color:#f92672">=</span> <span style="color:#e6db74"></spa
     encrypted <span style="color:#f92672">+</span><span style="color:#f92672">=</span> chr(a <span style="color:#f92672">/</span> <span style="color:#ae81ff">256</span>)
 
 open(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">encrypted</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">wb</span><span style="color:#e6db74">&#39;</span>)<span style="color:#f92672">.</span>write(encrypted)
-</code></pre></div><p>ランダム生成されたseedが何だったのか分かれば良さそうです。また、2文字ずつ暗号化して、2文字から2文字を生成しているようです。コンテストのフラグの形式は<!-- raw HTML omitted -->ctf4b{&hellip;}<!-- raw HTML omitted -->なので、<!-- raw HTML omitted -->ctf4b{<!-- raw HTML omitted -->を暗号化した結果がencryptedの最初の6文字と一致するシード値を探して、その後はそのシード値を使って[a-zA-Z0-9_-{}]からencryptedと比較しつつ選択してflagを生成していきます。</p>
+</code></pre></div><p>ランダム生成されたseedが何だったのか分かれば良さそうです。また、2文字ずつ暗号化して、2文字から2文字を生成しているようです。コンテストのフラグの形式は<code>ctf4b{&hellip;}</code>なので、<code>ctf4b{</code>を暗号化した結果がencryptedの最初の6文字と一致するシード値を探して、その後はそのシード値を使って[a-zA-Z0-9_-{}]からencryptedと比較しつつ選択してflagを生成していきます。</p>
 <h4 id="mainpy">main.py</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
 <span style="color:#f92672">import</span> random
