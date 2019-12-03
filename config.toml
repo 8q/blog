@@ -11,3 +11,6 @@ theme = "hyde"
   main = [
       {Name = "Portfolio", URL = "https://sayakachan.net/"},
   ]
+
+[markup.goldmark.renderer]
+  unsafe = true
