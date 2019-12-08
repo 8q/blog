@@ -6,10 +6,19 @@
     <description>Recent content in Posts on blog.sayakachan.net</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Nov 2019 18:08:31 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 10 Dec 2019 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.sayakachan.net/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>TweetDeckに流れてくるツイートを好きに置き換えるスクリプト</title>
+      <link>https://blog.sayakachan.net/posts/20191210/</link>
+      <pubDate>Tue, 10 Dec 2019 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20191210/</guid>
+      <description>&lt;p&gt;タイトルのとおりです。ネタです。PC版のChromeでしか動作確認してません。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>はてなブログからHugo&#43;CircleCI&#43;GitHub Pages&#43;独自ドメインになりました。</title>
