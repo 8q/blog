@@ -8,7 +8,7 @@ jobs:
     docker:
       - image: cibuilds/hugo:0.60.1
     steps:
-      - run: 
+      - run:
           name: Echo hugo version
           command: echo "$(hugo version)"
       - add_ssh_keys:
@@ -17,7 +17,7 @@ jobs:
       - checkout
       - run:
           name: Generate static files in 'public' dir
-          command: hugo -v
+          command: hugo -vF
       - run:
           name: Deploy static files to gh-pages branch
           command: ./.circleci/deploy.sh
