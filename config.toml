@@ -1,6 +1,6 @@
 baseURL = "https://blog.sayakachan.net/"
 languageCode = "en-us"
-title = "blog.sayakachan.net"
+title = "さやかちゃんドットネット"
 theme = "hyde"
 
 [params]
