@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>TLSv1.0/1.1の無効化に備えてnginxの設定を見直した。 &middot; さやかちゃんドットネット</title>
+  <title>TLSv1.0/1.1の無効化に備えてnginxの設定を見直しました。 &middot; さやかちゃんドットネット</title>
   <meta name="description" content="" />
 
   
@@ -27,7 +27,7 @@
   
   <meta name="twitter:card" content="summary"/>
   <meta name="twitter:image" content="https://blog.sayakachan.net/images/twitter_card_image.jpg"/>
-  <meta name="twitter:title" content="TLSv1.0/1.1の無効化に備えてnginxの設定を見直した。"/>
+  <meta name="twitter:title" content="TLSv1.0/1.1の無効化に備えてnginxの設定を見直しました。"/>
   <meta name="twitter:description" content="
      
 
@@ -59,8 +59,8 @@
 
     <main class="content container">
     <div class="post">
-  <h1>TLSv1.0/1.1の無効化に備えてnginxの設定を見直した。</h1>
-  <time datetime=2019-12-26T00:00:00&#43;0900 class="post-date">Thu, Dec 26, 2019</time>
+  <h1>TLSv1.0/1.1の無効化に備えてnginxの設定を見直しました。</h1>
+  <time datetime=2019-12-27T00:00:00&#43;0900 class="post-date">Fri, Dec 27, 2019</time>
   <figure>
     <img src="/images/20191227/004.jpg"/> 
 </figure>
@@ -114,7 +114,6 @@ ssl_certificate_key /etc/letsencrypt/live/sayakachan.net/privkey.pem;
 <pre><code>listen 443 ssl;
 server_name hogefuga.sayakachan.net;
 
-ssl on;
 ssl_certificate /etc/letsencrypt/live/sayakachan.net/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/sayakachan.net/privkey.pem;
 ssl_dhparam /etc/nginx/dhparam.pem;
@@ -125,7 +124,7 @@ ssl_prefer_server_ciphers off;
 <pre><code>curl -sS https://ssl-config.mozilla.org/ffdhe2048.txt | sudo tee /etc/nginx/dhparam.pem
 </code></pre><ul>
 <li><code>ssl on;</code>という書き方は古いそうです。<code>listen</code>でリッスンポートを指定する際に一緒に指定するのがモダンだそうです。(<a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl">nginxのドキュメント</a>より)</li>
-<li>TLSv1.3に対応するにはnginxとopensslのバージョンを上げる必要があったので、TLSv1.2のみしました。いずれは対応させたいです。</li>
+<li>TLSv1.3に対応するにはnginxとopensslのバージョンを上げる必要があったので、TLSv1.2のみとしました。いずれは対応させたいです。</li>
 <li>HTTP2には対応させていません。nginxは殆どをサーバー内部で動くアプリケーションへのリバースプロキシの目的で使っているからです。</li>
 <li>SSL Configuration GeneratorではSSLセッションを再利用する方法として、SSLセッションチケットを無効にしてSSLセッションキャッシュを有効にすることを推奨していますが、cloudflare側のSSLの設定に合わせて、SSLセッションチケットを有効にしてSSLセッションキャッシュを無効にしました。nginxはデフォルトでそうなっています。</li>
 <li>暗号スイート(Cipher suite)は使えるならより強力なものを使ってほしいので、SSL Configuration Generatorの通りに設定しました。</li>
