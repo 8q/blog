@@ -6,10 +6,22 @@
     <description>Recent content in Posts on さやかちゃんドットネット</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Fri, 27 Dec 2019 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.sayakachan.net/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MacBook Proを売った話＆社会人になりました。</title>
+      <link>https://blog.sayakachan.net/posts/20200405/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20200405/</guid>
+      <description>&lt;p&gt;大学を卒業して社会人になりました。その節目として大学生活を共にしたMacBook Proに別れを告げました。&lt;/p&gt;
+&lt;figure&gt;
+    &lt;img src=&#34;https://blog.sayakachan.net/images/20200405/001.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+    </item>
     
     <item>
       <title>TLSv1.0/1.1の無効化に備えてnginxの設定を見直しました。</title>
