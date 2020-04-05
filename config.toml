@@ -4,7 +4,7 @@ title = "さやかちゃんドットネット"
 theme = "hyde"
 
 [params]
-  description = "とある情報系学生のブログです。"
+  description = "とあるWeb系企業に勤める社会人のブログです。"
   themeColor = "theme-base-0a"
 
 [Menus]
