@@ -12,3 +12,4 @@ services:
       - server
       - --bind=0.0.0.0
       - -DF
+      # - --baseURL=192.168.99.100
