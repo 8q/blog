@@ -6,10 +6,19 @@
     <description>Recent content on さやかちゃんドットネット</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Tue, 05 May 2020 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2020 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.sayakachan.net/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>zshでパイプ後の標準入力を利用したコマンド置換でハマった。</title>
+      <link>https://blog.sayakachan.net/posts/20200610/</link>
+      <pubDate>Wed, 10 Jun 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.sayakachan.net/posts/20200610/</guid>
+      <description>&lt;p&gt;コマンド置換(&lt;code&gt;echo $(command)&lt;/code&gt;など)がbashではうまくいくけどzshでうまくいかないことがあって、なんでだろうなーとしばらく思っていたのが今日解決したので書いておきます。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Google Assistantからエアコンを操作できるようにしました。</title>
