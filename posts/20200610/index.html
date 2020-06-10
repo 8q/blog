@@ -58,7 +58,7 @@
   <h1>zshでパイプ後の標準入力を利用したコマンド置換でハマった。</h1>
   <time datetime=2020-06-10T00:00:00&#43;0900 class="post-date">Wed, Jun 10, 2020</time>
   <p>コマンド置換(<code>echo $(command)</code>など)がbashではうまくいくけどzshでうまくいかないことがあって、なんでだろうなーとしばらく思っていたのが今日解決したので書いておきます。</p>
-<h1 id="heading">ハマったところ</h1>
+<h2 id="heading">ハマったところ</h2>
 <p>zshでDocument以下の適当なtxtファイルについてディレクトリ名を表示させようと以下のコマンドを書いたところ、</p>
 <pre><code>$ find ~/Documents -name &quot;*.txt&quot; | tail -n 1 | dirname &quot;$(cat)&quot;
 cat: -: 入力/出力エラーです
@@ -74,7 +74,7 @@ exit
 cat: -: 入力/出力エラーです
 
 </code></pre><p>やっぱり上手く行かない。どうもパイプ後の標準入力を利用したコマンド置換が上手くいっていないようだということが分かった。</p>
-<h1 id="heading1">原因</h1>
+<h2 id="heading1">原因</h2>
 <p>zshとbashだとパイプ越しのコマンド置換での/dev/stdinの指してる先が違うということを知った。これは <a href="https://twitter.com/systemctl_ryoto">@systemctl_ryoto</a> さんに教えてもらいました(ありがとうございました&hellip;!)。</p>
 <p>以下の画像は左がzsh、右がbashで試したもの。<code>readlink -f シンボリックリンク</code> はシンボリックリンクを再帰的に遡って元のファイル名を表示してくれる。</p>
 <figure>
@@ -87,12 +87,130 @@ cat: -: 入力/出力エラーです
 <li>3段目でパイプ後の <code>/dev/stdin</code> の指している先を確認。これも想定どおりでどちらもパイプ元の出力らしきところを指している。</li>
 <li>4段目でパイプ後にコマンド置換の中で <code>/dev/stdin</code> の指している先を確認。これは想定外でbashはパイプ元の出力を、zshはターミナルからの入力を指してしまっている。</li>
 </ul>
-<h1 id="heading2">対策</h1>
+<h2 id="heading2">対策</h2>
 <pre><code>$ echo test | xargs echo
 test
 $ echo 2 | xargs -I{} echo 1 {} 3
 1 2 3
 </code></pre><p>これも <a href="https://twitter.com/systemctl_ryoto">@systemctl_ryoto</a> さんにアイデアをいただきました。ありがとうございました。</p>
+<h2 id="1">追記1</h2>
+<p>zshのプロセス展開についても同様のことが起きることが分かった。</p>
+<pre><code>~ $ # bash
+~ $ readlink -f /dev/stdin
+/dev/pts/0
+~ $ echo | cat &lt;(readlink -f /dev/stdin)
+/proc/10914/fd/pipe:[64248]
+</code></pre><pre><code>~ # zsh
+~ readlink -f /dev/stdin
+/dev/pts/0
+~ echo |  cat &lt;(readlink -f /dev/stdin)
+/dev/pts/0
+</code></pre><p>また、パイプ先が複合コマンドの場合はうまくいくらしい。<a href="https://twitter.com/angel_p_57">@angel_p_57</a>さんが色々調査してくださりました。(勉強になりました&hellip;!)
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">有難うございます。やはりそうすると、展開全般に影響してるのでしょうね。<br>…あの後、複合コマンドも試してみたのですが、単純なパイプの時だけ展開のタイミングが整合してないように見えるので、バグ扱いしても良いような気がしてます。<a href="https://t.co/EW3Fd4U8rP">https://t.co/EW3Fd4U8rP</a></p>&mdash; angel as ㌵㌤の猫 (@angel_p_57) <a href="https://twitter.com/angel_p_57/status/1270422209652088832?ref_src=twsrc%5Etfw">June 9, 2020</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>以下の回避策も可能だということが分かった。</p>
+<pre><code>$ echo 2 | ( echo 1 $(cat) 3 )
+1 2 3
+$ echo 1 | { cat &lt;(cat) }
+1
+</code></pre><h1 id="2">追記2</h1>
+<p>この問題について言及している質問を見つけた。</p>
+<ul>
+<li><a href="https://unix.stackexchange.com/questions/338102/zsh-command-substitution-does-not-inherit-stdin-from-its-parent">zsh: command substitution does not inherit stdin from its parent</a></li>
+</ul>
+<p>質問についていた回答を鵜呑みにするとzshはなるべく(Preferablyの訳)コマンド展開をしてから入出力の供給がされるようなので、<code>echo | echo $(cat)</code>のcatで使う標準入力はパイプ元ではなくターミナルの入力を向いてしまうらしい。</p>
+<p>回答ではcatで入出力エラーが出る理由についても言及しているが、これは正直私自身の勉強不足で理解できていない。</p>
+<p>またmultiosオプションについても言及している。で、このmultiosが何なのかというと<a href="http://zsh.sourceforge.net/Doc/Release/Redirection.html">zshのリダイレクションのマニュアル</a>の<code>7.2 Multios</code>の項に書いてあって、複数リダイレクションを記述するとそれぞれに内容をコピーしてくれるらしい(パイプも暗黙的なリダイレクションだと言っている)。</p>
+<p>zshは下のようなことができるようだ(知らなかった)。</p>
+<pre><code>~/workspace echo a &gt;b.txt &gt;c.txt
+~/workspace cat b.txt c.txt # bashではb.txtは空になっている
+a
+a
+~/workspace cat &lt;b.txt &lt;c.txt # bashではc.txtしか表示されない
+a
+a
+~/workspace echo a &gt;a.txt | cat # bashではa.txtには出力されるがターミナルには何も表示されない
+a
+~/workspace cat a.txt
+a
+~/workspace echo d &gt;d.txt
+~/workspace cat c.txt | cat &lt;d.txt # bashではd.txtの内容しか表示されない
+a
+d
+</code></pre><h2 id="3">追記3</h2>
+<p>コマンド展開はbashでは子プロセスで、zshでは自身のプロセスで行われるらしい。プロセス展開も同様。</p>
+<pre><code>~ $ # bash
+~ $ $(ps f &gt;&amp;2)
+  PID TTY      STAT   TIME COMMAND
+11661 pts/0    Ss+    0:00 -bash
+11943 pts/0    S+     0:00  \_ -bash
+11944 pts/0    R+     0:00      \_ ps f
+~ $ cat &lt;(ps f)
+  PID TTY      STAT   TIME COMMAND
+11661 pts/0    Ss     0:00 -bash
+11945 pts/0    S      0:00  \_ -bash
+11947 pts/0    R      0:00  |   \_ ps f
+11946 pts/0    S+     0:00  \_ cat /dev/fd/63
+</code></pre><pre><code>~ # zsh
+~ $(ps f &gt;&amp;2)
+  PID TTY      STAT   TIME COMMAND
+ 2989 pts/0    Ss+    0:00 -zsh
+ 4935 pts/0    R+     0:00  \_ ps f
+~ cat &lt;(ps f)
+  PID TTY      STAT   TIME COMMAND
+ 2989 pts/0    Ss     0:00 -zsh
+ 4949 pts/0    R      0:00  \_ ps f
+ 4950 pts/0    S+     0:00  \_ cat /proc/self/fd/11
+</code></pre><p>おや、と思ったのはサブシェル(<code>( list )</code>)の挙動。zshは子プロセスでは起動していない。それでも想定通りの結果が得られているので特に問題はない。</p>
+<pre><code>~ $ # bash
+~ $ unset hoge
+~ $ ( hoge=1; cd ~/workspace; ps f; )
+  PID TTY      STAT   TIME COMMAND
+12635 pts/0    Ss     0:00 -bash
+12677 pts/0    S+     0:00  \_ -bash
+12678 pts/0    R+     0:00      \_ ps f
+~ $ echo $hoge
+
+~ $ { hoge=1; cd ~/workspace; ps f; }
+  PID TTY      STAT   TIME COMMAND
+12635 pts/0    Ss     0:00 -bash
+12679 pts/0    R+     0:00  \_ ps f
+~/workspace $ echo $hoge
+1
+~/workspace $ echo $$
+12635
+</code></pre><pre><code>~ # zsh
+~ unset hoge
+~ ( hoge=1; cd ~/workspace; ps f; )
+  PID TTY      STAT   TIME COMMAND
+ 7762 pts/0    Ss     0:00 -zsh
+ 9555 pts/0    R+     0:00  \_ ps f
+~ echo $hoge
+
+~ { hoge=1; cd ~/workspace; ps f; }
+  PID TTY      STAT   TIME COMMAND
+ 7762 pts/0    Ss     0:00 -zsh
+ 9579 pts/0    R+     0:00  \_ ps f
+~/workspace echo $hoge
+1
+~/workspace echo $$
+7762
+</code></pre><p>また、zshではパイプラインの最後がサブシェルになっていないようだ。これも知らなかった。</p>
+<ul>
+<li><a href="https://riptutorial.com/zsh/example/19869/pipes-and-subshells">Pipes and subshells</a></li>
+</ul>
+<pre><code>~ $ # bash
+~ $ unset HOGE
+~ $ echo | HOGE=1
+~ $ echo $HOGE
+
+</code></pre><pre><code>~ # zsh
+~ unset HOGE
+~ echo | HOGE=1
+~ echo $HOGE
+1
+</code></pre>
 </div>
 
 
