@@ -94,7 +94,7 @@ $ echo 2 | xargs -I{} echo 1 {} 3
 1 2 3
 </code></pre><p>これも <a href="https://twitter.com/systemctl_ryoto">@systemctl_ryoto</a> さんにアイデアをいただきました。ありがとうございました。</p>
 <h2 id="1">追記1</h2>
-<p>zshのプロセス展開についても同様のことが起きることが分かった。</p>
+<p>zshのプロセス置換についても同様のことが起きることが分かった。</p>
 <pre><code>~ $ # bash
 ~ $ readlink -f /dev/stdin
 /dev/pts/0
@@ -114,12 +114,12 @@ $ echo 2 | xargs -I{} echo 1 {} 3
 1 2 3
 $ echo 1 | { cat &lt;(cat) }
 1
-</code></pre><h1 id="2">追記2</h1>
+</code></pre><h2 id="2">追記2</h2>
 <p>この問題について言及している質問を見つけた。</p>
 <ul>
 <li><a href="https://unix.stackexchange.com/questions/338102/zsh-command-substitution-does-not-inherit-stdin-from-its-parent">zsh: command substitution does not inherit stdin from its parent</a></li>
 </ul>
-<p>質問についていた回答を鵜呑みにするとzshはなるべく(Preferablyの訳)コマンド展開をしてから入出力の供給がされるようなので、<code>echo | echo $(cat)</code>のcatで使う標準入力はパイプ元ではなくターミナルの入力を向いてしまうらしい。</p>
+<p>質問についていた回答を鵜呑みにするとzshはなるべく(Preferablyの訳)コマンド置換をしてから入出力の供給がされるようなので、<code>echo | echo $(cat)</code>のcatで使う標準入力はパイプ元ではなくターミナルの入力を向いてしまうらしい。</p>
 <p>回答ではcatで入出力エラーが出る理由についても言及しているが、これは正直私自身の勉強不足で理解できていない。</p>
 <p>またmultiosオプションについても言及している。で、このmultiosが何なのかというと<a href="http://zsh.sourceforge.net/Doc/Release/Redirection.html">zshのリダイレクションのマニュアル</a>の<code>7.2 Multios</code>の項に書いてあって、複数リダイレクションを記述するとそれぞれに内容をコピーしてくれるらしい(パイプも暗黙的なリダイレクションだと言っている)。</p>
 <p>zshは下のようなことができるようだ(知らなかった)。</p>
@@ -139,7 +139,7 @@ a
 a
 d
 </code></pre><h2 id="3">追記3</h2>
-<p>コマンド展開はbashでは子プロセスで、zshでは自身のプロセスで行われるらしい。プロセス展開も同様。</p>
+<p>コマンド置換はbashでは子プロセスで、zshでは自身のプロセスで行われるらしい。プロセス置換も同様。</p>
 <pre><code>~ $ # bash
 ~ $ $(ps f &gt;&amp;2)
   PID TTY      STAT   TIME COMMAND
