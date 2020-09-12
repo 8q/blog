@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +37,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -58,7 +58,7 @@
   <h1>DockerベースのRuby on Railsのテンプレートを作った話</h1>
   <time datetime=2018-07-18T05:14:48Z class="post-date">Wed, Jul 18, 2018</time>
   <p>Ruby on RailsでサクッとAPIを作ってサクッとHeroku等にデプロイできるように、テンプレートとなるDockerベースのプロジェクトが欲しかったので作ったという話です。</p>
-<h1 id="heading">行った手順</h1>
+<h1 id="行った手順">行った手順</h1>
 <p>Docker ComposeでのRoRプロジェクトの作り方は公式が出しているものが参考になります。</p>
 <p><a href="https://docs.docker.com/compose/rails/">Quickstart: Compose and Rails</a></p>
 <p>が、このままだとDocker for Windowsでうまく動かなかったり、Herokuにデプロイ出来なかったりする(2018年7月現在)ので以下のように変えました。</p>
@@ -72,25 +72,25 @@ COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
 COPY . /myapp
 CMD [&quot;rails&quot;, &quot;s&quot;, &quot;-b&quot;, &quot;0.0.0.0&quot;]
-</code></pre><h3 id="dockercomposeyml">docker-compose.yml</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">version: <span style="color:#e6db74">&#39;3&#39;</span>
-services:
-  db:
-    image: postgres
-    volumes:
+</code></pre><h3 id="docker-composeyml">docker-compose.yml</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
+<span style="color:#66d9ef">services</span>:
+  <span style="color:#66d9ef">db</span>:
+    <span style="color:#66d9ef">image</span>: postgres
+    <span style="color:#66d9ef">volumes</span>:
       - postgres_db:/var/lib/postgresql/data
-  web:
-    build: .
-    command: bundle exec rails s -p <span style="color:#ae81ff">3000</span> -b <span style="color:#e6db74">&#39;0.0.0.0&#39;</span>
-    volumes:
+  <span style="color:#66d9ef">web</span>:
+    <span style="color:#66d9ef">build</span>: .
+    <span style="color:#66d9ef">command</span>: bundle exec rails s -p <span style="color:#ae81ff">3000</span> -b <span style="color:#e6db74">&#39;0.0.0.0&#39;</span>
+    <span style="color:#66d9ef">volumes</span>:
       - .:/myapp
-    ports:
+    <span style="color:#66d9ef">ports</span>:
       - <span style="color:#e6db74">&#34;3000:3000&#34;</span>
-    depends_on:
+    <span style="color:#66d9ef">depends_on</span>:
       - db
 
-volumes:
-  postgres_db:
+<span style="color:#66d9ef">volumes</span>:
+  <span style="color:#66d9ef">postgres_db</span>:
 
 </code></pre></div><p>これら以外は概ねリンクの通りです。ただし、APIモードで使いたいので<code>rails new</code>するときに<code>--api</code>オプションを付けました。</p>
 <p>次にRSpecとFactoryBotとFakerを導入しました。</p>
@@ -109,7 +109,7 @@ dco run web rails g rspec:install
 </code></pre><h3 id="rspec">.rspec</h3>
 <p>以下を追記</p>
 <pre><code>--format documentation
-</code></pre><h3 id="specrailshelperrb">spec/rails_helper.rb</h3>
+</code></pre><h3 id="specrails_helperrb">spec/rails_helper.rb</h3>
 <p>以下のように編集</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>configure <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
   <span style="color:#75715e"># ...</span>
@@ -119,7 +119,7 @@ dco run web rails g rspec:install
 </code></pre></div><h3 id="configapplicationrb">config/application.rb</h3>
 <p>以下のように編集</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">module</span> Myapp
-  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Application</span> <span style="color:#f92672">&amp;</span>lt; <span style="color:#66d9ef">Rails</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Application</span>
+  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Application</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">Rails</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Application</span>
     <span style="color:#75715e"># ...</span>
     <span style="color:#75715e"># rails generateの挙動の設定</span>
     config<span style="color:#f92672">.</span>generators <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>g<span style="color:#f92672">|</span>
@@ -132,7 +132,7 @@ dco run web rails g rspec:install
                        <span style="color:#e6db74">controller_specs</span>: <span style="color:#66d9ef">true</span>,
                        <span style="color:#e6db74">request_specs</span>: <span style="color:#66d9ef">false</span>
       <span style="color:#75715e"># fixtureの代わりにFactory Botを使う</span>
-      g<span style="color:#f92672">.</span>fixture_replacement <span style="color:#e6db74">:factory_bot</span>, <span style="color:#e6db74">dir</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">spec/factories</span><span style="color:#e6db74">&#34;</span>
+      g<span style="color:#f92672">.</span>fixture_replacement <span style="color:#e6db74">:factory_bot</span>, <span style="color:#e6db74">dir</span>: <span style="color:#e6db74">&#34;spec/factories&#34;</span>
     <span style="color:#66d9ef">end</span>
   <span style="color:#66d9ef">end</span>
 <span style="color:#66d9ef">end</span>
@@ -141,7 +141,7 @@ dco run web rails g rspec:install
 <pre><code>dco run web rails db:create
 dco up
 </code></pre><p><code>localhost:3000</code>でYay! You’re on Rails!が見れました。</p>
-<h1 id="heroku">Herokuにデプロイする</h1>
+<h1 id="herokuにデプロイする">Herokuにデプロイする</h1>
 <p>buildが済んでいる状態で</p>
 <pre><code>heroku login
 heroku create hoge-fuga

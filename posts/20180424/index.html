@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,7 @@
   <meta name="twitter:card" content="summary"/>
   <meta name="twitter:image" content="https://blog.sayakachan.net/images/twitter_card_image.jpg"/>
   <meta name="twitter:title" content="Let&#39;s EncryptでSSL対応した話(raspbian&#43;nginx)"/>
-  <meta name="twitter:description" content="Let&#39;s EncriptでSSL対応したときの話です。嬉しいことについ最近(2018年3月)にワイルドカード証明書が発行できるようになったようです。これでバーチャルホスト増やす度に証明書発行しなおすなんてことをしなくて済むぞヤッタネ。"/>
+  <meta name="twitter:description" content="Let&rsquo;s EncriptでSSL対応したときの話です。嬉しいことについ最近(2018年3月)にワイルドカード証明書が発行できるようになったようです。これでバーチャルホスト増やす度に証明書発行しなおすなんてことをしなくて済むぞヤッタネ。"/>
 </head>
 
   <body class="theme-base-0a ">
@@ -37,7 +37,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -57,8 +57,8 @@
     <div class="post">
   <h1>Let&#39;s EncryptでSSL対応した話(raspbian&#43;nginx)</h1>
   <time datetime=2018-04-24T03:59:23Z class="post-date">Tue, Apr 24, 2018</time>
-  <p>Let's EncriptでSSL対応したときの話です。嬉しいことについ最近(2018年3月)にワイルドカード証明書が発行できるようになったようです。これでバーチャルホスト増やす度に証明書発行しなおすなんてことをしなくて済むぞヤッタネ。</p>
-<h2 id="heading">手順</h2>
+  <p>Let&rsquo;s EncriptでSSL対応したときの話です。嬉しいことについ最近(2018年3月)にワイルドカード証明書が発行できるようになったようです。これでバーチャルホスト増やす度に証明書発行しなおすなんてことをしなくて済むぞヤッタネ。</p>
+<h2 id="手順">手順</h2>
 <p>raspbian+nginxでの手順です。</p>
 <pre><code>cd /usr/local/src
 git clone https://github.com/letsencrypt/letsencrypt
@@ -142,11 +142,11 @@ Congratulations, all renewals succeeded. The following certs have been renewed:
 </code></pre><p>以下を追記します。</p>
 <pre><code>00 05 01 * * /usr/local/bin/certbot renew --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini; systemctl restart nginx
 </code></pre><p>以上です。</p>
-<h2 id="heading1">参考</h2>
+<h2 id="参考">参考</h2>
 <ul>
-<li><a href="http://developersnote.jp/knowhow/lets-encrypt.html">Let's Encryptでワイルドカード証明書を無料で取得</a></li>
+<li><a href="http://developersnote.jp/knowhow/lets-encrypt.html">Let&rsquo;s Encryptでワイルドカード証明書を無料で取得</a></li>
 <li><a href="https://qiita.com/k-yamada-github/items/7314003de7bdcbb2d39b">letsencryptをUbuntu16.04 + Nginxで使ってみた</a></li>
-<li><a href="https://a244.hateblo.jp/entry/2017/09/10/171217">Let's encrypt の証明書の更新（ Cloudflare/DNS-01 ）</a></li>
+<li><a href="https://a244.hateblo.jp/entry/2017/09/10/171217">Let&rsquo;s encrypt の証明書の更新（ Cloudflare/DNS-01 ）</a></li>
 <li><a href="https://www.eigenmagic.com/2018/03/14/howto-use-certbot-with-lets-encrypt-wildcard-certificates/">HOWTO: Use certbot with Let’s Encrypt wildcard certificates</a></li>
 </ul>
 </div>

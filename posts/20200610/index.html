@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +37,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -58,7 +58,7 @@
   <h1>zshでパイプ後の標準入力を利用したコマンド置換でハマった。</h1>
   <time datetime=2020-06-10T00:00:00&#43;0900 class="post-date">Wed, Jun 10, 2020</time>
   <p>コマンド置換(<code>echo $(command)</code>など)がbashではうまくいくけどzshでうまくいかないことがあって、なんでだろうなーとしばらく思っていたのが今日解決したので書いておきます。</p>
-<h2 id="heading">ハマったところ</h2>
+<h2 id="ハマったところ">ハマったところ</h2>
 <p>zshでDocument以下の適当なtxtファイルについてディレクトリ名を表示させようと以下のコマンドを書いたところ、</p>
 <pre><code>$ find ~/Documents -name &quot;*.txt&quot; | tail -n 1 | dirname &quot;$(cat)&quot;
 cat: -: 入力/出力エラーです
@@ -74,7 +74,7 @@ exit
 cat: -: 入力/出力エラーです
 
 </code></pre><p>やっぱり上手く行かない。どうもパイプ後の標準入力を利用したコマンド置換が上手くいっていないようだということが分かった。</p>
-<h2 id="heading1">原因</h2>
+<h2 id="原因">原因</h2>
 <p>zshとbashだとパイプ越しのコマンド置換での/dev/stdinの指してる先が違うということを知った。これは <a href="https://twitter.com/systemctl_ryoto">@systemctl_ryoto</a> さんに教えてもらいました(ありがとうございました&hellip;!)。</p>
 <p>以下の画像は左がzsh、右がbashで試したもの。<code>readlink -f シンボリックリンク</code> はシンボリックリンクを再帰的に遡って元のファイル名を表示してくれる。</p>
 <figure>
@@ -87,13 +87,13 @@ cat: -: 入力/出力エラーです
 <li>3段目でパイプ後の <code>/dev/stdin</code> の指している先を確認。これも想定どおりでどちらもパイプ元の出力らしきところを指している。</li>
 <li>4段目でパイプ後にコマンド置換の中で <code>/dev/stdin</code> の指している先を確認。これは想定外でbashはパイプ元の出力を、zshはターミナルからの入力を指してしまっている。</li>
 </ul>
-<h2 id="heading2">対策</h2>
+<h2 id="対策">対策</h2>
 <pre><code>$ echo test | xargs echo
 test
 $ echo 2 | xargs -I{} echo 1 {} 3
 1 2 3
 </code></pre><p>これも <a href="https://twitter.com/systemctl_ryoto">@systemctl_ryoto</a> さんにアイデアをいただきました。ありがとうございました。</p>
-<h2 id="1">追記1</h2>
+<h2 id="追記1">追記1</h2>
 <p>zshのプロセス置換についても同様のことが起きることが分かった。</p>
 <pre><code>~ $ # bash
 ~ $ readlink -f /dev/stdin
@@ -114,7 +114,7 @@ $ echo 2 | xargs -I{} echo 1 {} 3
 1 2 3
 $ echo 1 | { cat &lt;(cat) }
 1
-</code></pre><h2 id="2">追記2</h2>
+</code></pre><h2 id="追記2">追記2</h2>
 <p>この問題について言及している質問を見つけた。</p>
 <ul>
 <li><a href="https://unix.stackexchange.com/questions/338102/zsh-command-substitution-does-not-inherit-stdin-from-its-parent">zsh: command substitution does not inherit stdin from its parent</a></li>
@@ -138,7 +138,7 @@ a
 ~/workspace cat c.txt | cat &lt;d.txt # bashではd.txtの内容しか表示されない
 a
 d
-</code></pre><h2 id="3">追記3</h2>
+</code></pre><h2 id="追記3">追記3</h2>
 <p>コマンド置換はbashでは子プロセスで、zshでは自身のプロセスで行われるらしい。プロセス置換も同様。</p>
 <pre><code>~ $ # bash
 ~ $ $(ps f &gt;&amp;2)

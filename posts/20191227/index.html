@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +41,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -66,24 +66,24 @@
 </figure>
 
 <p>2020年1月以降、各種ブラウザがTLSv1.0/1.1のサポートを切り始めます。サーバー側も、通常使われないからといって脆弱性のある古いバージョンを使える状態で放置しておくのは良くないので対処しました。ついでにこれまでなあなあで設定していたnginxのSSL関連の設定も見直しました。</p>
-<h2 id="heading">今の構成</h2>
+<h2 id="今の構成">今の構成</h2>
 <p><code>sayakachan.net</code>のDNSレコードは、少し変で、以下の画像のようになっています。</p>
 <figure>
     <img src="/images/20191227/001.jpg"/> 
 </figure>
 
-<p>ブログはGitHub Pagesで管理しているのでそちらへ向けて、それ以外は自分のサーバーへ。また、ブログと一部の静的ページはプロキシが間にいます。キャッシュにもあてています。ブログと一部の静的ページはcloudflareの証明書が使われ、それ以外は自分で取ったLet's Encryptの証明書が使われています。図にすると以下の感じでしょうか。なお分かりづらいかもしれません。</p>
+<p>ブログはGitHub Pagesで管理しているのでそちらへ向けて、それ以外は自分のサーバーへ。また、ブログと一部の静的ページはプロキシが間にいます。キャッシュにもあてています。ブログと一部の静的ページはcloudflareの証明書が使われ、それ以外は自分で取ったLet&rsquo;s Encryptの証明書が使われています。図にすると以下の感じでしょうか。なお分かりづらいかもしれません。</p>
 <figure>
     <img src="/images/20191227/002.jpg"/> 
 </figure>
 
 <p>TLSの設定について自分で制御しているは図で言うところのnginxのhttpsの部分です。ここの設定を見直しました。</p>
-<h2 id="ssltls">SSL/TLSについて</h2>
+<h2 id="ssltlsについて">SSL/TLSについて</h2>
 <p>以下サイトで色々知りました。</p>
 <ul>
 <li><a href="https://qiita.com/kuni-nakaji/items/5118b23bf2ea44fed96e">httpsだからというだけで安全？調べたら怖くなってきたSSLの話!？</a></li>
 </ul>
-<h2 id="heading1">現状</h2>
+<h2 id="現状">現状</h2>
 <p><code>*.sayakachan.net</code>を<a href="https://www.ssllabs.com/">SSL Labs</a>にかけてみた結果です。</p>
 <figure>
     <img src="/images/20191227/003.jpg"/> 
@@ -109,7 +109,7 @@ ssl on;
 ssl_certificate /etc/letsencrypt/live/sayakachan.net/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/sayakachan.net/privkey.pem;
 </code></pre><p>nginxのバージョンは<code>1.10.3</code>でopensslのバージョンは<code>1.1.0</code>です。このバージョンのnginxのデフォルトだと、TLSv1.0/1.1/1.2を有効にします。</p>
-<h2 id="heading2">対処</h2>
+<h2 id="対処">対処</h2>
 <p><a href="https://ssl-config.mozilla.org/">SSL Configuration Generator</a>を参考に進めて以下のように変更しました。</p>
 <pre><code>listen 443 ssl;
 server_name hogefuga.sayakachan.net;
@@ -129,7 +129,7 @@ ssl_prefer_server_ciphers off;
 <li>SSL Configuration GeneratorではSSLセッションを再利用する方法として、SSLセッションチケットを無効にしてSSLセッションキャッシュを有効にすることを推奨していますが、cloudflare側のSSLの設定に合わせて、SSLセッションチケットを有効にしてSSLセッションキャッシュを無効にしました。nginxはデフォルトでそうなっています。</li>
 <li>暗号スイート(Cipher suite)は使えるならより強力なものを使ってほしいので、SSL Configuration Generatorの通りに設定しました。</li>
 </ul>
-<h2 id="heading3">結果</h2>
+<h2 id="結果">結果</h2>
 <p>目立った警告が消えたのでとりあえずヨシとします👏
 <figure>
     <img src="/images/20191227/004.jpg"/> 

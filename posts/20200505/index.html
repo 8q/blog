@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +40,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -64,16 +64,16 @@
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 夏に備えて外からエアコンを操作出来るようにしておきました。家に帰ったら部屋が冷えている(or 暖まっている)なんてことが出来れば最高です。今はコロナであんまり関係ないですが&hellip;。はやく収まって欲しいですね。</p>
-<h2 id="heading">できること</h2>
+<h2 id="できること">できること</h2>
 <p>スマホのGoogleアシスタントアプリやGoogle HomeからエアコンをON/OFF出来るようになりました。電源を入れる際は冷房・暖房の区別がありますが、電源を消す際は区別がありません。</p>
 <pre><code>「OK Google, (冷房|暖房)をつけて」 -&gt; 部屋の(冷房|暖房)がつく。
 「OK Google, (冷房|暖房|エアコン)を消して」 -&gt; 部屋の(冷房|暖房)が消える。
-</code></pre><h2 id="heading1">構成</h2>
+</code></pre><h2 id="構成">構成</h2>
 <figure>
     <img src="/images/20200505/001.jpg"/> 
 </figure>
 
-<h2 id="heading2">①赤外線モジュール</h2>
+<h2 id="赤外線モジュール">①赤外線モジュール</h2>
 <p>エアコンのリモコンの代わりに使います。こちらのUSBで接続できるタイプの製品を使いました。</p>
 <div class="iframely-embed"><div class="iframely-responsive" style="padding-bottom: 52.5%; padding-top: 120px;"><a href="https://www.amazon.co.jp/%25E3%2583%2593%25E3%2583%2583%25E3%2583%2588%25E3%2583%2588%25E3%2583%25AC%25E3%2583%25BC%25E3%2583%2589%25E3%2583%25AF%25E3%2583%25B3-ADIR01P-%25E3%2583%2593%25E3%2583%2583%25E3%2583%2588%25E3%2583%25BB%25E3%2583%2588%25E3%2583%25AC%25E3%2583%25BC%25E3%2583%2589%25E3%2583%25BB%25E3%2583%25AF%25E3%2583%25B3-USB%25E8%25B5%25A4%25E5%25A4%2596%25E7%25B7%259A%25E3%2583%25AA%25E3%2583%25A2%25E3%2582%25B3%25E3%2583%25B3%25E3%2582%25A2%25E3%2583%2589%25E3%2583%2590%25E3%2583%25B3%25E3%2582%25B9/dp/B013JG0WSG" data-iframely-url="//cdn.iframe.ly/QNKoAWi"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
 <p>こちらの製品は赤外線の信号パターンを記録するツールやLinux上で動作するソフトウェアコントローラなどが充実しています。</p>
@@ -101,7 +101,7 @@ sudo make install
 </ul>
 <p>signalsディレクトリには送信設定アプリケーションを使って記録したリモコンの信号パターンを置いています。赤外線外部からこのAPIにリクエストする際にはオン・オフのどちらかということと冷房・暖房のどちらかということをパラメータとして乗せます。対応する信号パターンをsignalsディレクトリ以下から探しての赤外線モジュールにbto_ir_advanced_cmdコマンド経由で送信します。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// POST /control
-</span><span style="color:#75715e"></span><span style="color:#75715e">// Content-Type: application/json
+</span><span style="color:#75715e">// Content-Type: application/json
 </span><span style="color:#75715e"></span>{
     <span style="color:#e6db74">&#34;switch&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;on&#34;</span>, <span style="color:#75715e">// or &#34;off&#34;
 </span><span style="color:#75715e"></span>    <span style="color:#e6db74">&#34;mode&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;cool&#34;</span> <span style="color:#75715e">// or &#34;heat&#34;
@@ -152,7 +152,7 @@ pm2 save
     <img src="/images/20200505/004.jpg"/> 
 </figure>
 </p>
-<h2 id="heading3">気になること</h2>
+<h2 id="気になること">気になること</h2>
 <p>赤外線モジュールとRaspberry Pi(とwifiモジュール)がピカピカするから部屋を暗くしたときに結構気になる。
 <figure>
     <img src="/images/20200505/005.jpg"/> 

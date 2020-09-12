@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +41,7 @@ Unityの画面でスコアを入力してサーバーへ登録、サーバーか
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -66,12 +66,12 @@ Unityの画面でスコアを入力してサーバーへ登録、サーバーか
 </figure>
 
 <p>Unityの画面でスコアを入力してサーバーへ登録、サーバーからスコアの一覧を取得してUnityの画面へ出力するということをやってみました。スコアサーバーはRuby on Railsで立てて、UnityではJson.NETとUniRxを用いました。特にやりたいことがあったわけではないのですが、知見のためにやりました。</p>
-<h1 id="heading">やりたいこと</h1>
+<h1 id="やりたいこと">やりたいこと</h1>
 <ol>
 <li>Unityの画面から名前とスコアを入力してサーバーへ送信する。</li>
 <li>サーバーから名前とスコアの一覧を取得してUnityの画面へ表示する。</li>
 </ol>
-<h1 id="ruby-on-rails">Ruby on Railsでスコアサーバーを立てる</h1>
+<h1 id="ruby-on-railsでスコアサーバーを立てる">Ruby on Railsでスコアサーバーを立てる</h1>
 <p>名前とスコアが登録できればいいので、雑ですがscaffoldで以下のようにしました。</p>
 <pre><code>rails g scaffold User name:string score:integer
 </code></pre><p>また、バリデーションを書きました。</p>
@@ -79,19 +79,19 @@ Unityの画面でスコアを入力してサーバーへ登録、サーバーか
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApplicationRecord</span>
     validates <span style="color:#e6db74">:name</span>, 
         <span style="color:#e6db74">presence</span>: <span style="color:#66d9ef">true</span>, 
-        <span style="color:#e6db74">length</span>: {<span style="color:#e6db74">minimum</span>:<span style="color:#ae81ff">3</span><span style="color:#f92672"></span>, <span style="color:#e6db74">maximum</span>:<span style="color:#ae81ff">15</span><span style="color:#f92672"></span>}, 
-        format: { <span style="color:#e6db74">with</span>: <span style="color:#e6db74">/</span><span style="color:#e6db74">\</span><span style="color:#e6db74">A[a-zA-Z0-9_]+</span><span style="color:#e6db74">\</span><span style="color:#e6db74">z</span><span style="color:#e6db74">/</span> }
+        <span style="color:#e6db74">length</span>: {<span style="color:#e6db74">minimum</span>:<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">maximum</span>:<span style="color:#ae81ff">15</span>}, 
+        format: { <span style="color:#e6db74">with</span>: <span style="color:#e6db74">/\A[a-zA-Z0-9_]+\z/</span> }
     validates <span style="color:#e6db74">:score</span>,
         <span style="color:#e6db74">presence</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#e6db74">numericality</span>: {<span style="color:#e6db74">only_integer</span>: <span style="color:#66d9ef">true</span>, <span style="color:#e6db74">greater_than_or_equal_to</span>: <span style="color:#ae81ff">0</span><span style="color:#f92672"></span>, <span style="color:#e6db74">less_than</span>: <span style="color:#ae81ff">10000000</span><span style="color:#f92672"></span>}
+        <span style="color:#e6db74">numericality</span>: {<span style="color:#e6db74">only_integer</span>: <span style="color:#66d9ef">true</span>, <span style="color:#e6db74">greater_than_or_equal_to</span>: <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">less_than</span>: <span style="color:#ae81ff">10000000</span>}
 <span style="color:#66d9ef">end</span>
 
 </code></pre></div><p>この状態でサーバーを立ち上げればJSONでデータがやりとりできます。curlでデータを取得、送信するサンプルを置いておきます。</p>
-<h4 id="heading1">スコアデータの一覧を取得</h4>
+<h4 id="スコアデータの一覧を取得">スコアデータの一覧を取得</h4>
 <pre><code>curl http://URL/users
-</code></pre><h4 id="heading2">スコアデータの送信</h4>
+</code></pre><h4 id="スコアデータの送信">スコアデータの送信</h4>
 <pre><code>curl -X POST -H &quot;Content-Type: application/json&quot; -d '{&quot;user&quot;: {&quot;name&quot;: &quot;shira&quot;, &quot;score&quot;: 456 }}' http://URL/users
-</code></pre><h1 id="unity">Unityで通信用のクラスを作る</h1>
+</code></pre><h1 id="unityで通信用のクラスを作る">Unityで通信用のクラスを作る</h1>
 <p>JSONをシリアライズ・デシリアライズするときの受け皿となるクラスを作成します。この辺Json.NETの書き方に従います。</p>
 <h4 id="userdatacs">UserData.cs</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserData</span>
@@ -127,7 +127,7 @@ Unityの画面でスコアを入力してサーバーへ登録、サーバーか
     }
 }
 
-</code></pre></div><h1 id="unity1">Unityでスコア登録画面を作る</h1>
+</code></pre></div><h1 id="unityでスコア登録画面を作る">Unityでスコア登録画面を作る</h1>
 <p>uGUIで記事上部のように要素を配置しました。</p>
 <p>入力側でもバリデーションチェックをしていきます。名前とスコアが正しく入力できていないときはボタンをクリックできないようにします。以下のスクリプトを「Create Empty」で作成した空のGameObjectに貼り付けて、インスペクタービューから対応するuGUIのオブジェクトを選択します。ここではTextの代わりにTextMeshProを使っていますが、置き換えて考えて大丈夫です。また、MonoBehaviourの代わりにSingletonMonoBehaviourを用いていますが、これはヒエラルキーに同じオブジェクトが2つ以上できないように抑制するもので、これもMonoBehaviourに置き換えて考えて大丈夫です。</p>
 <h4 id="registeruimanagercs">RegisterUIManager.cs</h4>
@@ -208,7 +208,7 @@ Unityの画面でスコアを入力してサーバーへ登録、サーバーか
     }
 }
 
-</code></pre></div><h1 id="unity2">Unityでスコア一覧画面を作る</h1>
+</code></pre></div><h1 id="unityでスコア一覧画面を作る">Unityでスコア一覧画面を作る</h1>
 <p>以下のような表示画面を作りました。
 <figure>
     <img src="/images/20180824/221710.png"/> 

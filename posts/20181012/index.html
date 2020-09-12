@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +37,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -58,17 +58,17 @@
   <h1>chinachuのffmpegがraspberry piで動かない問題</h1>
   <time datetime=2018-10-12T13:39:44Z class="post-date">Fri, Oct 12, 2018</time>
   <p>最近録画サーバーを再構築しました。chinachuのインストールは<a href="https://github.com/Chinachu/Chinachu/wiki/Gamma-Installation-V2">公式のwiki</a>に従って行けばそれで良いのですが、このままだとffmpegが上手く動かず録画したデータの再生ができません。raspi上でchinachuを動かす記事は世の中にごまんとある割には、その問題に触れてる記事には出会わなかったので、僕が解決した方法をまとめておきます。</p>
-<h1 id="heading">起きた問題</h1>
+<h1 id="起きた問題">起きた問題</h1>
 <p>chinachuで録画したデータが再生できない。500 Internal server errorになる。ライブ再生はできる。</p>
-<h1 id="heading1">ログを確認</h1>
+<h1 id="ログを確認">ログを確認</h1>
 <pre><code>cat /usr/local/var/log/chinachu-wui.stdout.log
 </code></pre><pre><code>12 Oct 08:47:34 - { Error: Command failed: ffmpeg -f mpegts -ss 1.5 -r 10 -i &quot;./recorded/[181012-0000][GR20][ＴＯＫＹＯ　ＭＸ１]ゾンビランドサガ.m2ts&quot; -ss 1.5 -r 10 -frames:v 1 -c:v mjpeg -an -f image2 -s 480x270 -map 0:0 -y pipe:1
 /bin/sh: 1: ffmpeg: Exec format error
 </code></pre><pre><code>12 Oct 08:47:39 - error { Error: Command failed: ffprobe -v 0 -show_format -of json &quot;./recorded/[181011-2330][GR20][ＴＯＫＹＯ　ＭＸ１]メルクストーリア　－無気力少年と瓶の中の少女－.m2ts&quot;
 /bin/sh: 1: ffprobe: Exec format error
-</code></pre><h1 id="heading2">原因</h1>
+</code></pre><h1 id="原因">原因</h1>
 <p>chinachuはインストール時に自前でffmpegをビルドしているが、実行ファイルがarm用でないため。</p>
-<h1 id="heading3">対処</h1>
+<h1 id="対処">対処</h1>
 <p>chinachuのffmpegは削除して、グローバルに改めてffmpegをインストールする。</p>
 <pre><code>cd chinachu
 rm ./usr/bin/ffmpeg

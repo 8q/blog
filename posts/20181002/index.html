@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +41,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -66,7 +66,7 @@
 </figure>
 
 <p>遊びでUnityで蚊を倒すゲームを作ってみました。大学の学祭のときにでもみんなに遊んでもらおうと画策してます。ゲームの紹介と技術的なことを書きます。</p>
-<h1 id="heading">遊び方</h1>
+<h1 id="遊び方">遊び方</h1>
 <ol>
 <li>でてきた蚊をたたいてたおそう！マウスを動かして左クリック！
 <figure>
@@ -80,18 +80,18 @@
 </li>
 <li>制限時間は90秒！時間内にたくさんの蚊をたおそう！</li>
 </ol>
-<h1 id="heading1">ゲームの様子</h1>
+<h1 id="ゲームの様子">ゲームの様子</h1>
 <p>プレー中の様子を動画にしました。</p>
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
   <iframe src="https://www.youtube.com/embed/p01EW5hG5ck" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
 </div>
 
-<h1 id="heading2">ダウンロード</h1>
+<h1 id="ダウンロード">ダウンロード</h1>
 <p>GitHubのリリースにWindows・Mac向けのビルド済みファイルを置いてあります。遊んでミテネ。</p>
 <p><a href="https://github.com/8q/mosquito-game/releases">8q/mosquito-game/releases</a></p>
-<h1 id="heading3">技術的な話</h1>
-<h2 id="unirx">UniRxを使って</h2>
+<h1 id="技術的な話">技術的な話</h1>
+<h2 id="unirxを使って">UniRxを使って</h2>
 <p>せっかくUniRxを覚えたので全面的にUniRxを使って作りました。UniRxのおかげでこれまでのUnityで作ったゲームより圧倒的コンポーネント間の疎結合が実現できたなあと感じています。カーソルを例に考えてみます。
 <figure>
     <img src="/images/20181002/180237.gif"/> 
@@ -133,9 +133,9 @@
 </code></pre></div><p>と、こんな感じでカーソルのビヘイビアなのにカーソルに関係ない処理がモリモリ増えていきます。そうすると別クラスに切り出すというのは考えられるのですが、結局カーソルが各クラスのメソッドを呼び出す形になるので、クラス間の依存関係が複雑になってきます。そもそもカーソルがUIの更新を行うのかというところも疑問ですし、カーソルが「パン」のオブジェクトのことを知っておかなければいけないというのも気に食いません。</p>
 <p>では、UniRxを使ってイベント駆動にしてみます。カーソルは「クリックをした」というイベントを発行するにとどまり、各処理はそのイベントを観測次第実行するという風にしてみます。</p>
 <h4 id="eventmanagercs">EventManager.cs</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EventManager</span> : SingletonMonoBehaviour&amp;lt;EventManager&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EventManager</span> : SingletonMonoBehaviour&lt;EventManager&gt;
 {
-    <span style="color:#66d9ef">public</span> Subject&amp;lt;Unit&gt; MouseClick {<span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">set</span>;} = <span style="color:#66d9ef">new</span> Subject&amp;lt;Unit&gt;();
+    <span style="color:#66d9ef">public</span> Subject&lt;Unit&gt; MouseClick {<span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">set</span>;} = <span style="color:#66d9ef">new</span> Subject&lt;Unit&gt;();
 }
 
 </code></pre></div><h4 id="cursorbehaviourcs">CursorBehaviour.cs</h4>
@@ -180,7 +180,7 @@
 }
 
 </code></pre></div><p>と、このようにEventManagerでイベントを管理して、EventManager経由でイベントを発行・通知するようにしました。するとカーソルがカーソルに関係のない処理を呼び出していたものが、役割に応じた各ビヘイビアに処理ごと切り出すことができました。例では「パン」を生成するコードのみを切り出しましたが、その他処理も同様に切り出せます。クラス間の関係の見通しがよくなったと思いませんか？<strong>最高。</strong></p>
-<h1 id="heading4">名前空間の切り分け</h1>
+<h1 id="名前空間の切り分け">名前空間の切り分け</h1>
 <p>Unityで自動生成されるコードには名前空間が振られない（グローバルな名前空間）ですね。最初は気にせず開発していたのですがこんなことがありました。ゲームシーンでの蚊のビヘイビアとして「MosquitoBehaviour」クラスを作っていました。タイトルシーンでも蚊を動かす必要があったのですが、ゲームシーンでのそれとは動作が違うので新たにビヘイビアを作る必要がありました。クラス名として「MosquitoBehaviour」は既に使われているので「TitleMosquitoBehaviour」か？長くない？そもそもタイトルシーンの方をそういう風に命名するならゲームシーンの方も「GameMosquitoBehaviour」に直す？じゃあカーソルとかのビヘイビアも今後別のシーンで使われることを見越して「GameCursorBehavior」にするのか？とキリがなくなってしまいます。そういうときはシーンごとに名前空間を切り分けてやるとうまくいくんじゃないかと思いました。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">namespace</span> MosquitoGame.GameScene
 {

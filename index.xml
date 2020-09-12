@@ -221,7 +221,7 @@
       <pubDate>Tue, 24 Apr 2018 03:59:23 +0000</pubDate>
       
       <guid>https://blog.sayakachan.net/posts/20180424/</guid>
-      <description>&lt;p&gt;Let&#39;s EncriptでSSL対応したときの話です。嬉しいことについ最近(2018年3月)にワイルドカード証明書が発行できるようになったようです。これでバーチャルホスト増やす度に証明書発行しなおすなんてことをしなくて済むぞヤッタネ。&lt;/p&gt;</description>
+      <description>&lt;p&gt;Let&amp;rsquo;s EncriptでSSL対応したときの話です。嬉しいことについ最近(2018年3月)にワイルドカード証明書が発行できるようになったようです。これでバーチャルホスト増やす度に証明書発行しなおすなんてことをしなくて済むぞヤッタネ。&lt;/p&gt;</description>
     </item>
     
   </channel>

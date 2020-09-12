@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +41,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -66,7 +66,7 @@
 </div>
 
 <p>自室の照明のスイッチなんですが、ベットが置いてあるところに対して部屋の対角線上のちょうど反対側にあるんですよね。ベットでゴロゴロしながらあ～眠くなってきたなってときに照明を消すために立ち上がらないとイケないわけで不便でした。せっかくGoogle Homeが部屋にあるのだからベットでゴロゴロしながら「OK Google, 電気を消して」「パチッ（電気が切れる音）」とかやりたいですよね。仮にも情報系学生を名乗るからにはこれくらい自作してナンボですね。ということで作ってみたという話です。</p>
-<h2 id="heading">機材</h2>
+<h2 id="機材">機材</h2>
 <ul>
 <li>Google Home Mini</li>
 <li>Raspberry Pi 3(raspbian、4.14.52-v7+)</li>
@@ -76,7 +76,7 @@
 <li>ジャンプワイヤ3本(オスメス)</li>
 <li>ガムテープ</li>
 </ul>
-<h2 id="heading1">構成</h2>
+<h2 id="構成">構成</h2>
 <p>Google Homeに話しかけてからサーボモータが動作するまでの流れは以下のような構成です。</p>
 <ol>
 <li>Google Homeがフレーズを拾う</li>
@@ -87,7 +87,7 @@
 </ol>
 <h2 id="google-home">Google Home</h2>
 <p>何もしていません。初期設定のままです。</p>
-<h2 id="arduino-nano">Arduino nanoとサーボモータ</h2>
+<h2 id="arduino-nanoとサーボモータ">Arduino nanoとサーボモータ</h2>
 <p>サーボモータ(SG90)とArduino nano(の偽物)をジャンプワイヤで結びました。赤をVcc(5V)、黄をDigital Outの3ピン、茶をGNDに繋げます。以下のようなプログラムを書いて書き込みました。</p>
 <script type="application/javascript" src="https://gist.github.com/8q/253fdd04378b5a96ceaf43eba347866c.js?file=light_servo.ino"></script>
 
@@ -181,7 +181,7 @@ sudo nginx -s reload
 </figure>
 
 <p>URLはリバプロで設定したサーバー名を入れます。<code>switch=off</code>のボディをnodeに渡します。iftttを設定すると、一連のプログラムが動くようになります。</p>
-<h2 id="heading2">終わりに</h2>
+<h2 id="終わりに">終わりに</h2>
 <p>ガムテでのサーボモータの設置はお世辞にもスマートとは言えないものになってしまいましたが、まあ、こういうことも出来るよって知見は溜まったのかなとは思います。あとはこういうのはピタゴラスイッチみたいで楽しいです。</p>
 </div>
 

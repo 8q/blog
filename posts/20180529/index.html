@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +38,7 @@ SECCON Beginners CTF 2018に参加しました - MIS.W 公式ブログ"/>
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -157,48 +157,48 @@ ctf4b{T4mp3r_4n07h3r_v4r14bl3_w17h_m3m0ry_c0rrup710n}
         self<span style="color:#f92672">.</span>seed <span style="color:#f92672">=</span> (self<span style="color:#f92672">.</span>A <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>seed <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>B) <span style="color:#f92672">%</span> self<span style="color:#f92672">.</span>C
         <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>seed
 
-g <span style="color:#f92672">=</span> Stream(int(os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">.</span>encode(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">hex</span><span style="color:#e6db74">&#39;</span>), <span style="color:#ae81ff">16</span>))
+g <span style="color:#f92672">=</span> Stream(int(os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;hex&#39;</span>), <span style="color:#ae81ff">16</span>))
 
-encrypted <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&#39;</span>
+encrypted <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
 <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(flag), <span style="color:#ae81ff">2</span>):
-    a <span style="color:#f92672">=</span> int(flag[i:i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>encode(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">hex</span><span style="color:#e6db74">&#39;</span>), <span style="color:#ae81ff">16</span>) <span style="color:#f92672">^</span> g<span style="color:#f92672">.</span>next()
-    encrypted <span style="color:#f92672">+</span><span style="color:#f92672">=</span> chr(a <span style="color:#f92672">%</span> <span style="color:#ae81ff">256</span>)
-    encrypted <span style="color:#f92672">+</span><span style="color:#f92672">=</span> chr(a <span style="color:#f92672">/</span> <span style="color:#ae81ff">256</span>)
+    a <span style="color:#f92672">=</span> int(flag[i:i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;hex&#39;</span>), <span style="color:#ae81ff">16</span>) <span style="color:#f92672">^</span> g<span style="color:#f92672">.</span>next()
+    encrypted <span style="color:#f92672">+=</span> chr(a <span style="color:#f92672">%</span> <span style="color:#ae81ff">256</span>)
+    encrypted <span style="color:#f92672">+=</span> chr(a <span style="color:#f92672">/</span> <span style="color:#ae81ff">256</span>)
 
-open(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">encrypted</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">wb</span><span style="color:#e6db74">&#39;</span>)<span style="color:#f92672">.</span>write(encrypted)
+open(<span style="color:#e6db74">&#39;encrypted&#39;</span>, <span style="color:#e6db74">&#39;wb&#39;</span>)<span style="color:#f92672">.</span>write(encrypted)
 </code></pre></div><p>ランダム生成されたseedが何だったのか分かれば良さそうです。また、2文字ずつ暗号化して、2文字から2文字を生成しているようです。コンテストのフラグの形式は<code>ctf4b{&hellip;}</code>なので、<code>ctf4b{</code>を暗号化した結果がencryptedの最初の6文字と一致するシード値を探して、その後はそのシード値を使って[a-zA-Z0-9_-{}]からencryptedと比較しつつ選択してflagを生成していきます。</p>
 <h4 id="mainpy">main.py</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
 <span style="color:#f92672">import</span> random
 
 <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Stream</span>:
-<span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
+<span style="color:#f92672">...</span>
 
 seed <span style="color:#f92672">=</span> None
-text <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">ctf4b{</span><span style="color:#e6db74">&#39;</span>
-enc <span style="color:#f92672">=</span> open(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">encrypted</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;</span>)<span style="color:#f92672">.</span>read()
+text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ctf4b{&#39;</span>
+enc <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;encrypted&#39;</span>, <span style="color:#e6db74">&#39;r&#39;</span>)<span style="color:#f92672">.</span>read()
 <span style="color:#66d9ef">while</span> True:
-    seed <span style="color:#f92672">=</span> int(os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">.</span>encode(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">hex</span><span style="color:#e6db74">&#39;</span>), <span style="color:#ae81ff">16</span>)
+    seed <span style="color:#f92672">=</span> int(os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;hex&#39;</span>), <span style="color:#ae81ff">16</span>)
     g <span style="color:#f92672">=</span> Stream(seed)
     flag <span style="color:#f92672">=</span> True
     <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(text), <span style="color:#ae81ff">2</span>):
-        a <span style="color:#f92672">=</span> int(text[i:i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>encode(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">hex</span><span style="color:#e6db74">&#39;</span>), <span style="color:#ae81ff">16</span>) <span style="color:#f92672">^</span> g<span style="color:#f92672">.</span>next()
+        a <span style="color:#f92672">=</span> int(text[i:i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;hex&#39;</span>), <span style="color:#ae81ff">16</span>) <span style="color:#f92672">^</span> g<span style="color:#f92672">.</span>next()
         <span style="color:#66d9ef">if</span> chr(a <span style="color:#f92672">%</span> <span style="color:#ae81ff">256</span>) <span style="color:#f92672">!=</span> enc[i] <span style="color:#f92672">or</span> chr(a <span style="color:#f92672">/</span> <span style="color:#ae81ff">256</span>) <span style="color:#f92672">!=</span> enc[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]:
             flag <span style="color:#f92672">=</span> False
             <span style="color:#66d9ef">break</span>
     <span style="color:#66d9ef">if</span> flag:
         <span style="color:#66d9ef">break</span>
 
-chars <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">1234567890-_{}qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM</span><span style="color:#e6db74">&#34;</span>
-res <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#34;</span>
+chars <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1234567890-_{}qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM&#34;</span>
+res <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
 g <span style="color:#f92672">=</span> Stream(seed)
 <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(enc), <span style="color:#ae81ff">2</span>):
     n <span style="color:#f92672">=</span> g<span style="color:#f92672">.</span>next()
     <span style="color:#66d9ef">while</span> True:
         s <span style="color:#f92672">=</span> chars[random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, len(chars)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)] <span style="color:#f92672">+</span> chars[random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, len(chars)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)]
-        a <span style="color:#f92672">=</span> int(s<span style="color:#f92672">.</span>encode(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">hex</span><span style="color:#e6db74">&#39;</span>), <span style="color:#ae81ff">16</span>) <span style="color:#f92672">^</span> n
+        a <span style="color:#f92672">=</span> int(s<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;hex&#39;</span>), <span style="color:#ae81ff">16</span>) <span style="color:#f92672">^</span> n
         <span style="color:#66d9ef">if</span> chr(a <span style="color:#f92672">%</span> <span style="color:#ae81ff">256</span>) <span style="color:#f92672">==</span> enc[i] <span style="color:#f92672">and</span> chr(a <span style="color:#f92672">/</span> <span style="color:#ae81ff">256</span>) <span style="color:#f92672">==</span> enc[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]:
-            res <span style="color:#f92672">+</span><span style="color:#f92672">=</span> s
+            res <span style="color:#f92672">+=</span> s
             <span style="color:#66d9ef">break</span>
 
 <span style="color:#66d9ef">print</span> res

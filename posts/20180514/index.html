@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +37,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -58,11 +58,11 @@
   <h1>Raspberry PiにDocker ComposeでownCloudを導入する</h1>
   <time datetime=2018-05-14T14:52:28Z class="post-date">Mon, May 14, 2018</time>
   <p>raspbian+nginxで動かしているサーバーにownCloudを導入したのでその備忘録です。nginxは仮想環境ではなくraspbian上で直接動いている前提です。</p>
-<h1 id="docker">Dockerのインストール</h1>
+<h1 id="dockerのインストール">Dockerのインストール</h1>
 <p><a href="https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi">Raspberry Pi財団の公式ブログ</a>に書いてある通りです。dockerグループにユーザーを追加することでsudoなしで使えるようになります。</p>
 <pre><code>curl -sSL https://get.docker.com | sh
 sudo usermod -aG docker pi
-</code></pre><h1 id="docker-compose">Docker Composeのインストール</h1>
+</code></pre><h1 id="docker-composeのインストール">Docker Composeのインストール</h1>
 <pre><code>cd ~
 git clone https://github.com/docker/compose.git
 cd compose
@@ -71,7 +71,7 @@ docker run --rm --entrypoint=&quot;script/build/linux-entrypoint&quot; -v $(pwd)
 sudo cp dist/docker-compose-Linux-armv7l /usr/local/bin/docker-compose
 </code></pre><p>ちゃんと導入できているか確認</p>
 <pre><code>docker-compose --version
-</code></pre><h1 id="dockercomposeyml">docker-compose.ymlを書く</h1>
+</code></pre><h1 id="docker-composeymlを書く">docker-compose.ymlを書く</h1>
 <pre><code>cd ~
 mkdir owncloud
 cd owncloud
@@ -105,10 +105,10 @@ volumes:
     owncloud-data:
 </code></pre><p>コンテナを起動します。restart: alwaysにしているのでマシンを再起動しても勝手にコンテナも再起動します。</p>
 <pre><code>docker-compose up -d
-</code></pre><h1 id="nginx">nginxの設定</h1>
+</code></pre><h1 id="nginxの設定">nginxの設定</h1>
 <pre><code>cd /etc/nginx/sites-available
 vim cloud.example.com.conf
-</code></pre><p>cloud.example.com.confの中身はこんな感じです。「Let's EncryptでSSL対応した話(raspbian+nginx)」でワイルドカード証明書を既に発行してあります。ラズパイのローカルIPは適宜設定して下さい。</p>
+</code></pre><p>cloud.example.com.confの中身はこんな感じです。「Let&rsquo;s EncryptでSSL対応した話(raspbian+nginx)」でワイルドカード証明書を既に発行してあります。ラズパイのローカルIPは適宜設定して下さい。</p>
 <pre><code>server {
     listen  443;
     server_name cloud.example.com;
@@ -135,9 +135,9 @@ vim cloud.example.com.conf
 sudo ln -s /etc/nginx/sites-available/cloud.example.com.conf cloud.example.com.conf
 sudo nginx -t
 sudo nginx -s reload
-</code></pre><h1 id="owncloud">ownCloudの初期設定</h1>
+</code></pre><h1 id="owncloudの初期設定">ownCloudの初期設定</h1>
 <p>cloud.example.comにアクセスすると初期設定画面が出てくるはずですこのときラズパイのローカルIP:10080にアクセスしても同じ画面が出てきますが、設定に問題が起きるので必ずドメイン名でアクセスして下さい。docker-compose.ymlで設定したデータベース名等を設定します。データベースの接続先には「db」を設定します。</p>
-<h1 id="heading">各種設定</h1>
+<h1 id="各種設定">各種設定</h1>
 <p>ownCloudの各種設定はコンテナ内の<code>/var/www/html/config/config.php</code>を編集します。</p>
 <p>以上です。</p>
 </div>

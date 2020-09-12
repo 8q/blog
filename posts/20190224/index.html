@@ -3,7 +3,7 @@
 <head>
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.60.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +41,7 @@
     <div class="sidebar-about">
       <a href="https://blog.sayakachan.net/"><h1>blog.sayakachan.net</h1></a>
       <p class="lead">
-       とあるWeb系企業に勤める社会人のブログです。 
+       Web系企業で決済インフラのエンジニアとして働いています。 
       </p>
     </div>
 
@@ -66,19 +66,19 @@
 </div>
 
 <p>自分が追っているアニメの放送時間がパッと分かるような仕組みがあったらいいな～と思ったのでGoogle Homeのアシスタントを作りました。</p>
-<h1 id="heading">できること</h1>
+<h1 id="できること">できること</h1>
 <p>番組情報はChinachuの予約済み/録画中/録画済みから抽出しています。</p>
 <pre><code>「OK Google, (一昨|昨|今|明|明後)日のアニメ」
 あるとき
 -&gt;「 (一昨|昨|今|明|明後)日は${番組情報リスト.map(e =&gt; `${e.時刻}から${e.チャンネル名}で${e.番組名}`).join('、')}です。」
 ないとき
 -&gt;「(一昨|昨|今|明|明後)日の番組が見つかりませんでした。」
-</code></pre><h1 id="heading1">構成</h1>
+</code></pre><h1 id="構成">構成</h1>
 <figure>
     <img src="/images/20190224/20190224194612.png"/> 
 </figure>
 
-<h1 id="chinachu-">①Chinachu γ</h1>
+<h1 id="chinachu-γ">①Chinachu γ</h1>
 <p>ありがたいことにREST APIが用意されています。予約済み/録画中/録画済みリストを取得するには<code>/reserves</code>と<code>/recording</code>と<code>/recorded</code>が使えます。</p>
 <p><a href="%22https://github.com/Chinachu/Chinachu/wiki/REST-API%22">REST API · Chinachu/Chinachu Wiki · GitHub</a></p>
 <h1 id="nginx">②Nginx</h1>
@@ -95,7 +95,7 @@
 </figure>
 
 <h1 id="amazon-api-gateway">④Amazon API Gateway</h1>
-<h3 id="heading2">リソース</h3>
+<h3 id="リソース">リソース</h3>
 <ul>
 <li>POST<code>/chinachu-linkage</code></li>
 <li>認証<code>なし</code></li>
@@ -103,11 +103,11 @@
 <li>統合タイプ<code>Lambdaファンクション</code></li>
 </ul>
 <p><a href="https://dev.classmethod.jp/voice-assistant/actions-on-google/using_aws_lambda_for_fullfilment_of_dialogflow/">こちらの記事</a>でも言及されているようにメソッドレスポンスのコンテンツタイプを<code>application/json; charset=UTF-8</code>にしないとGoogle Assistantで日本語が文字化けしてしまいました。</p>
-<h3 id="heading3">ステージ</h3>
+<h3 id="ステージ">ステージ</h3>
 <p><code>dev</code>を作成しました。</p>
-<h3 id="api">APIキー</h3>
+<h3 id="apiキー">APIキー</h3>
 <p><code>my_api</code>を作成しました。</p>
-<h3 id="heading4">使用量プラン</h3>
+<h3 id="使用量プラン">使用量プラン</h3>
 <p>スロットリングとクォータを無効にして<code>basic</code>を作成し、関連付けられた API ステージに<code>chinachu-linkage</code>と<code>dev</code>を追加し、<code>my_api</code>を使用量プランに追加しました。</p>
 <h1 id="dialogflow">⑤Dialogflow</h1>
 <h3 id="1-entities">1. Entities</h3>
@@ -133,16 +133,16 @@
 <p>Google Assistantを選択します。</p>
 <h1 id="google-assistant">⑥Google Assistant</h1>
 <p>DialogflowとGoogle Assistantを連携した時点で自動的に実機でも作ったアプリが起動できるようになりました。またInvocationでDisplay Nameを「今日のアニメ」にしました。</p>
-<h3 id="heading5">ルーティン（ショートカット）の作成</h3>
+<h3 id="ルーティンショートカットの作成">ルーティン（ショートカット）の作成</h3>
 <p>現状までで「OK Google, 今日のアニメにつないで(一昨|昨|今|明|明後)日のアニメを聞いて」が可能になりましたが、かなりまどろっこしいのでルーティンという機能を使って簡単にしました。モバイルのGoogle Assistantアプリから設定できました。</p>
 <figure>
     <img src="/images/20190224/20190224193632.jpg"/> 
 </figure>
 
 <p>画像は「今日」のものですが同様に他の日も設定しました。（これもエンティティみたいにひとまとめにできたらいいのに）</p>
-<h1 id="heading6">完成</h1>
+<h1 id="完成">完成</h1>
 <p>やったぜ。</p>
-<h1 id="heading7">気になること</h1>
+<h1 id="気になること">気になること</h1>
 <p><a href="https://developers.google.com/actions/tools/simulator">Actions simulator  |  Actions on Google
  |  Google Developers</a></p>
 <p>これを見る限りPublishしてないテストアプリは30日立ったら失効してしまうらしい。30日立ったらもっかいシミュレータにアクセスすればいいのだろうけど、それは面倒。どうしよう。</p>
